@@ -1,0 +1,50 @@
+<!--Two way binding-->
+<!-- here we use ngModel which is a directive = an instruction you place on an html element-->
+<!-- ngModel listens to the user input and emit the data to us and store that data in the text area-->
+<!-- ngModel is not included in core angular package so we need to import it-->
+<!-- we need to bind it to a property-->
+<mat-card>
+  <mat-spinner *ngIf="isLoading"></mat-spinner>
+  <form (submit)="onSaveReport(reportForm)" #reportForm="ngForm" *ngIf="!isLoading">
+  <mat-form-field>
+    <input
+           matInput
+           type="text"
+           name="title"
+           [ngModel]="report?.title"
+           required
+           placeholder="Title"
+           #title="ngModel">
+    <mat-error *ngIf="title.invalid">Please enter a post title.</mat-error>
+  </mat-form-field>
+    <mat-form-field>
+      <input matInput
+             type="text"
+             name="rating"
+             [ngModel]="report?.rating"
+             required
+             placeholder="Rating"
+             #rating="ngModel">
+      <mat-error *ngIf="rating.invalid">Please enter a post title.</mat-error>
+    </mat-form-field>
+  <mat-form-field>
+    <textarea matInput
+              rows="4"
+              name="comment"
+              [ngModel]="report?.comment"
+              required
+              placeholder="Comment"
+              #comment="ngModel">
+    </textarea>
+    <mat-error *ngIf="comment.invalid">Please enter a report comment.</mat-error>
+  </mat-form-field>
+    <mat-action-row>
+      <button mat-raised-button
+              color="primary"
+              type="submit">Save Report</button>
+      <button mat-button
+              color="primary" type="reset">Clear value</button>
+    </mat-action-row>
+
+  </form>
+</mat-card>
