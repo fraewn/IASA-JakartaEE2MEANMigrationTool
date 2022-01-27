@@ -5,7 +5,8 @@
 export const environment = {
   production: false,
   backendUrl: "http://localhost:3000/api",
-  websocketurl: "ws://localhost:3001"
+  websocketurl: "ws://localhost:3001",
+  backend: "http://localhost:8080/api/v1"
 };
 
 /*

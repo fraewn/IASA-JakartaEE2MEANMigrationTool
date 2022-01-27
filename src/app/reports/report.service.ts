@@ -78,7 +78,7 @@ export class ReportService {
     return this.reportsUpdated.asObservable();
   }
 
-  deleteReport(reportId: string){
+  deleteAnalysis(reportId: string){
     return this.http.delete(this.BACKEND_URL + "/" + reportId);
   }
 

@@ -19,18 +19,21 @@
         <a mat-button routerLink="/company/create" routerLinkActive="mat-accent">New Company</a>
         </div>
       </li>
+      <li >
+        <a mat-button routerLink="" routerLinkActive="mat-accent">JavaEE Ratingmanagement -> MEAN-Stack RatingManagement | Migrationstatus: 60%</a>
+      </li>
 
-    <li *ngIf="isAuthenticated">
-      <a mat-button routerLink="/report/create" routerLinkActive="mat-accent">New Report</a>
-    </li>
-      <li *ngIf="!isAuthenticated">
-        <a mat-button routerLink="/auth/login" routerLinkActive="mat-accent">Login</a>
+      <li >
+        <a mat-button routerLink="" routerLinkActive="mat-accent">View Architecture</a>
       </li>
-      <li *ngIf="!isAuthenticated">
-        <a mat-button routerLink="/auth/signup" routerLinkActive="mat-accent">Sign up</a>
+      <li >
+        <a mat-button routerLink="/globalAnalysis" routerLinkActive="mat-accent">View Analysis</a>
       </li>
-      <li *ngIf="isAuthenticated">
-        <button mat-button (click)="onLogout()">Logout</button>
+      <li >
+        <a mat-button routerLink="/localAnalysis" routerLinkActive="mat-accent">Migrate</a>
+      </li>
+      <li >
+        <a mat-button routerLink="" routerLinkActive="mat-accent">View on Github</a>
       </li>
     </ul>
   </mat-toolbar>

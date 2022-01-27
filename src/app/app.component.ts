@@ -12,7 +12,7 @@ import {AuthService} from "./auth/auth.service";
   styleUrls: ['./app.component.css']
 })
 export class AppComponent implements OnInit {
-  title = 'MEANRatingManagement';
+  title = 'JavaEE2MEAN Migration';
   storedReports : Report[] = [];
 
   constructor(private authService: AuthService) {

@@ -1,0 +1,19 @@
+<mat-spinner *ngIf="isLoading"></mat-spinner>
+<!-- set multi true so that several expansions can be open at the same time-->
+<mat-accordion multi="true" *ngIf="analyses.length>0 && !isLoading">
+  <!-- *ngFor is a directive used to repeat an element as often as required-->
+  <mat-expansion-panel *ngFor="let analysis of analyses">
+    <mat-expansion-panel-header>
+      {{ analysis.title }}
+    </mat-expansion-panel-header>
+    <p>{{ analysis.value }}</p>
+  </mat-expansion-panel>
+</mat-accordion>
+<mat-paginator
+  [length]="totalAnalyses"
+  [pageSize]="analysesPerPage"
+  [pageSizeOptions]="pageSizeOptions"
+  (page)="onChangedPage($event)"
+  *ngIf="analyses.length>0" >
+</mat-paginator>
+<p class="info-text mat-body-1" *ngIf="analyses.length<=0 && !isLoading"> No analyses added yet! </p>

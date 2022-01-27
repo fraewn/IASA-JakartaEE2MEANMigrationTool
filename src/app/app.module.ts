@@ -13,6 +13,9 @@ import {ReportModule} from "./reports/report.module";
 import {CompanyModule} from "./companies/company.module";
 import {FailureComponent} from "./failure/failure.component";
 import {FormsModule} from "@angular/forms";
+import {AnalysisModule} from "./analysis/analysis.module";
+import {GlobalAnalysisModule} from "./globalAnalysis/global-analysis.module";
+import {LocalAnalysisModule} from "./localAnalysis/local-analysis.module";
 
 // defines the features our angular application has
 // angular thinks in applications and applications are split in modules
@@ -37,7 +40,10 @@ import {FormsModule} from "@angular/forms";
     AngularMaterialModule,
     ReportModule,
     CompanyModule,
-    FormsModule
+    FormsModule,
+    AnalysisModule,
+    GlobalAnalysisModule,
+    LocalAnalysisModule
   ],
   providers: [{provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true},
     {provide: HTTP_INTERCEPTORS, useClass: ErrorInterceptor, multi: true}],

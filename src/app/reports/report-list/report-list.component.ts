@@ -73,7 +73,7 @@ export class ReportListComponent implements OnInit, OnDestroy{
 
   onDelete(reportId: string){
     this.isLoading = true;
-    this.reportService.deleteReport(reportId).subscribe(() => {
+    this.reportService.deleteAnalysis(reportId).subscribe(() => {
       this.reportService.getReports(this.reportsPerPage, this.currentPage);
     }, () => {
       this.isLoading = false;

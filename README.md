@@ -8,7 +8,7 @@ Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The app w
 
 ## Development server - backend
 
-Run `npm run start:server` to start backend server. 
+Only works with the JavaEE2MEANMigrationService Java [Backend](https://github.com/fraewn/JavaEE2MEANMigrationService). 
 
 ## Code scaffolding
 

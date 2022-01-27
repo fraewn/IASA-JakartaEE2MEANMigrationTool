@@ -1,0 +1,46 @@
+
+table {
+  width: 100%
+}
+
+.mat-expansion-panel{
+  margin-top: 2em;
+}
+
+.mat-table{
+  margin-top: 3em;
+}
+
+th {
+  width: 30%;
+}
+
+.mat-header-cell, mat-cell {
+  text-align: center;
+  text-anchor: middle;
+}
+
+.mat-column-select {
+  overflow: initial;
+}
+
+.mat-row .mat-cell {
+  border-bottom: 1px solid transparent;
+  border-top: 1px solid transparent;
+  cursor: pointer;
+}
+
+.mat-row:hover .mat-cell {
+  border-color: currentColor;
+}
+
+.demo-row-is-clicked {
+  font-weight: bolder;
+}
+
+.mat-raised-button, .mat-form-field {
+  margin: 1.5em;
+  font-size: 0.8em;
+}
+
+

@@ -7,11 +7,14 @@ import {CompanyCreateComponent} from "./companies/company-create/company-create.
 import {CompanyListComponent} from "./companies/company-list/company-list.component";
 import {FailureComponent} from "./failure/failure.component";
 import {RoleGuard} from "./permission/role.guard";
-import {Role} from "./permission/role";
+import {AnalysisTableComponent} from "./globalAnalysis/analysisTable/analysis-table.component";
+import {SemanticAnalysisComponent} from "./localAnalysis/semanticAnalysis/semantic-analysis.component";
 
 const routes: Routes = [
   { path: '', component: ReportListComponent },
   { path: 'company', component: CompanyListComponent},
+  { path: 'globalAnalysis', component: AnalysisTableComponent},
+  { path: 'localAnalysis', component: SemanticAnalysisComponent},
   { path: 'failure', component: FailureComponent},
   { path: 'report/create', component: ReportCreateComponent, canActivate: [AuthGuard]},
   { path: 'report/edit/:reportId', component: ReportCreateComponent, canActivate: [AuthGuard]},
