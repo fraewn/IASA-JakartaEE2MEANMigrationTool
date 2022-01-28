@@ -16,6 +16,8 @@ export class LocalAnalysisService{
   private BACKEND_URL_SEMANTICANALYSIS = environment.backend + "/semanticAnalysis";
   private BACKEND_URL_CURRENT_SEMANTIC_KNOWLEDGE = environment.backend + "/semanticAnalysis/current";
   private BACKEND_URL_CURRENT_SEMANTIC_ANALYSIS_PER_LAYER = environment.backend + "/semanticAnalysisForOneLayer";
+  private BACKEND_URL_CURRENT_SEMANTIC_ANALYSIS_PER_LAYER_EXTENDED = environment.backend + "/semanticAnalysisForOneLayerExtended";
+  private BACKEND_URL_SAVE_ALL_PER_LAYER = environment.backend + "/semanticAnalysisSaveAll"
 
   constructor(private http: HttpClient, private router: Router) {}
 
@@ -57,9 +59,53 @@ export class LocalAnalysisService{
     });
   }
 
+  requestSemanticAnalysisForALayerExtendedResult(layer, semanticAnalysisExtensions) {
+    const headers = new HttpHeaders().append('Content-Type', 'application/json')
+    const body = JSON.stringify(semanticAnalysisExtensions);
+    const params = new HttpParams().append("layer", layer);
+    this.http.post(
+      this.BACKEND_URL_CURRENT_SEMANTIC_ANALYSIS_PER_LAYER_EXTENDED, body, {
+        headers: headers,
+        params: params
+      }).pipe(map(response => ({
+      semanticKnowledgeObjectArray: response
+    }))).subscribe(objectArr => {
+      let transformedSemanticKnowledgeData : SemanticKnowledge[] = [];
+      for(let i in objectArr.semanticKnowledgeObjectArray){
+        let semanticKnowledge : SemanticKnowledge = {name:"", keywords:[]};
+        semanticKnowledge.name = objectArr.semanticKnowledgeObjectArray[i].name;
+        semanticKnowledge.keywords = objectArr.semanticKnowledgeObjectArray[i].keywords;
+        transformedSemanticKnowledgeData.push(semanticKnowledge);
+      }
+      this.semanticKnowledgeUpdated.next({semanticKnowledge : transformedSemanticKnowledgeData });
+    });
+  }
+
   requestCurrentSemanticKnowledge(){
     this.http.get(
       this.BACKEND_URL_CURRENT_SEMANTIC_KNOWLEDGE).pipe(map(response => ({
+      semanticKnowledgeObjectArray: response
+    }))).subscribe(objectArr => {
+      let transformedSemanticKnowledgeData : SemanticKnowledge[] = [];
+      for(let i in objectArr.semanticKnowledgeObjectArray){
+        let semanticKnowledge : SemanticKnowledge = {name:"", keywords:[]};
+        semanticKnowledge.name = objectArr.semanticKnowledgeObjectArray[i].name;
+        semanticKnowledge.keywords = objectArr.semanticKnowledgeObjectArray[i].keywords;
+        transformedSemanticKnowledgeData.push(semanticKnowledge);
+      }
+      this.semanticKnowledgeUpdated.next({semanticKnowledge : transformedSemanticKnowledgeData });
+    });
+  }
+
+  requestSaveAllPerLayer(layer, semanticAnalysisExtensions) {
+    const headers = new HttpHeaders().append('Content-Type', 'application/json')
+    const body = JSON.stringify(semanticAnalysisExtensions);
+    const params = new HttpParams().append("layer", layer);
+    this.http.post(
+      this.BACKEND_URL_SAVE_ALL_PER_LAYER, body, {
+        headers: headers,
+        params: params
+      }).pipe(map(response => ({
       semanticKnowledgeObjectArray: response
     }))).subscribe(objectArr => {
       let transformedSemanticKnowledgeData : SemanticKnowledge[] = [];

@@ -103,6 +103,14 @@ export class SemanticAnalysisComponent implements AfterViewInit, OnInit, OnDestr
     }
   }
 
+  updateKeywordsForALayer(element, keywords){
+    for(let i in this.semanticAnalysisExtensions){
+      if(this.semanticAnalysisExtensions[i].layer == element.name){
+        this.semanticAnalysisExtensions[i].additionalKeywords = keywords;
+      }
+    }
+  }
+
   setUpSearchExtendsPerLayer(){
     // clear
     this.semanticAnalysisExtensions = [];
@@ -114,27 +122,32 @@ export class SemanticAnalysisComponent implements AfterViewInit, OnInit, OnDestr
     }
   }
 
-  onSaveAssignment(element, myReview){
-    console.log(myReview);
-    console.log(element.name);
-    // save review in database
-  }
-
   onStartSemanticAnalysisForALayer(element){
     let layer = element.name;
     this.localAnalysisService.requestSemanticAnalysisForALayerResult(layer, this.semanticAnalysisExtensions);
   }
 
+  onStartAnalysisWithOwnKeywords(element, text){
+    let additionalKeywords : string[] = text.split(", ");
+    this.updateKeywordsForALayer(element, additionalKeywords);
+    let layer = element.name;
+    this.localAnalysisService.requestSemanticAnalysisForALayerExtendedResult(layer, this.semanticAnalysisExtensions);
+  }
+
+  onSaveAssignment(element, text){
+    let additionalKeywords : string[] = text.split(", ");
+    this.updateKeywordsForALayer(element, additionalKeywords);
+    let layer = element.name;
+    this.localAnalysisService.requestSaveAllPerLayer(layer, this.semanticAnalysisExtensions);
+  }
+
+
+
   onStartSemanticAnalysisForAll(){
     console.log("start semantic analysis for all");
   }
 
-  onStartAnalysisWithOwnKeywords(element, text){
-    console.log(text);
-    let additionalKeywords : string[] = text.split(", ");
-    console.log(additionalKeywords);
-    console.log(element.name);
-  }
+
 
   onSetExtentForAll(extentForAll){
     this.extentForAll = extentForAll;
