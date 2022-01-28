@@ -10,7 +10,10 @@
         The semantic analysis is a powerful, but voluntary step in the migration process from JavaEE to MEAN. It can only be applied within
         The semantic analysis is a powerful, but voluntary step in the migration process from JavaEE to MEAN. It can only be applied within
         The semantic analysis is a powerful, but voluntary step in the migration process from JavaEE to MEAN. It can only be applied within
-        The semantic analysis is a powerful, but voluntary step in the migration process from JavaEE to MEAN. It can only be applied within</p>
+        The semantic analysis is a powerful, but voluntary step in the migration process from JavaEE to MEAN. It can only be applied within
+        *Run the semantic <br> algorithm again <br> with the additional <br> keywords to double <br> check
+        Enter own keywords <br> separated by comma  and whitespace
+        Set the search <br> extent for semantic <br> analysis in  layer neighbourhood</p>
     </mat-expansion-panel>
 
     <mat-table #table [dataSource]="dataSource" matSort (matSortChange)="announceSortChange($event)"
@@ -34,11 +37,14 @@
       </ng-container>
 
       <ng-container matColumnDef="searchExtent">
-        <th mat-header-cell *matHeaderCellDef>Set the search <br> extent for semantic <br> analysis in  layer neighbourhood</th>
-        <td mat-cell *matCellDef="let element; let i = index"> {{element.review}}
-          <mat-form-field>
-            <input matInput [(ngModel)]="myReviews[i]" placeholder="Default: 3" (click)="onSaveAssignment(element, myReviews[i])">
-          </mat-form-field>
+        <th mat-header-cell *matHeaderCellDef>Search Extent</th>
+        <td mat-cell *matCellDef="let element; let i = index">
+          <mat-select>
+            <mat-option *ngFor="let searchExtent of searchExtents" [value]="searchExtent" (click)="updateSearchExtendForALayer(searchExtent, element)">
+              {{searchExtent}}
+            </mat-option >
+          </mat-select>
+
         </td>
         <td mat-footer-cell *matFooterCellDef="let element; let i = index">
           <mat-form-field>
@@ -48,7 +54,7 @@
       </ng-container>
 
       <ng-container matColumnDef="execute">
-        <th mat-header-cell *matHeaderCellDef> Start semantic analysis </th>
+        <th mat-header-cell *matHeaderCellDef> Start analysis </th>
         <td mat-cell *matCellDef="let element; let i = index">
           <button mat-raised-button color ="secondary" type ="submit" (click)="onStartSemanticAnalysisForALayer(element)">Analyse</button>
         </td>
@@ -65,10 +71,10 @@
       </ng-container>
 
       <ng-container matColumnDef="review">
-        <th mat-header-cell *matHeaderCellDef>Enter own keywords <br> separated by comma  and whitespace</th>
-        <td mat-cell *matCellDef="let element; let i = index"> {{element.review}}
+        <th mat-header-cell *matHeaderCellDef>Own keywords</th>
+        <td mat-cell *matCellDef="let element; let i = index">
           <mat-form-field>
-            <input matInput [(ngModel)]="myReviews[i]" placeholder="e.g. REST, DataObject.java, ...">
+            <input matInput [(ngModel)]="additionalKeywords[i]" placeholder="e.g. REST, DataObject.java, ...">
           </mat-form-field>
         </td>
         <td mat-footer-cell *matFooterCellDef>
@@ -76,7 +82,7 @@
       </ng-container>
 
       <ng-container matColumnDef="check">
-        <th mat-header-cell *matHeaderCellDef> *Run the semantic <br> algorithm again <br> with the additional <br> keywords to double <br> check </th>
+        <th mat-header-cell *matHeaderCellDef> Run algorithm <br> and save</th>
         <td mat-cell *matCellDef="let element; let i = index">
           <button mat-raised-button color ="secondary" type ="submit" (click)="onStartAnalysisWithOwnKeywords(element, myReviews[i])">Save only <br>approved*</button>
         </td>
@@ -85,7 +91,7 @@
       </ng-container>
 
       <ng-container matColumnDef="save">
-        <th mat-header-cell *matHeaderCellDef> If you're sure: </th>
+        <th mat-header-cell *matHeaderCellDef> Save to database </th>
         <td mat-cell *matCellDef="let element; let i = index">
           <button mat-raised-button color ="secondary" type ="submit" (click)="onSaveAssignment(element, myReviews[i])">Save all</button>
         </td>

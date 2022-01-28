@@ -13,6 +13,12 @@ const SEMANTIC_ANALYSIS_DATA : SemanticKnowledge[] = [
   {name: 'Web Layer', keywords: ['REST', 'Service'] }
 ];
 
+export interface SemanticAnalysisExtension{
+  layer: string,
+  searchExtent: number,
+  additionalKeywords : string[]
+}
+
 
 @Component({
   selector: 'semantic-analysis',
@@ -26,12 +32,17 @@ export class SemanticAnalysisComponent implements AfterViewInit, OnInit, OnDestr
   semanticKnowledge : SemanticKnowledge[] = [];
   private semanticKnowledgeSubscribed : Subscription;
 
+  // table
   dataSource = new MatTableDataSource<SemanticKnowledge>()
   displayedColumns: string[] = ['name', 'include', 'searchExtent',  'execute', 'keywords', 'review', 'check', 'save'];
   public myReviews : any = {};
+  public additionalKeywords: any = {};
   @ViewChild(MatSort) sort: MatSort;
 
+  // table operations
   selection;
+  searchExtents : number[] = [1,2,3,4];
+  semanticAnalysisExtensions : SemanticAnalysisExtension[] = [];
   extentForAll = 3;
   layers = {};
   clickedRows = new Set<SemanticKnowledge>();
@@ -40,33 +51,67 @@ export class SemanticAnalysisComponent implements AfterViewInit, OnInit, OnDestr
     this.localAnalysisService = localAnalysisService;
   }
 
-  ngOnInit(): void {
-    this.localAnalysisService.requestSemanticAnalysisResults();
+  update(){
+    // fill up with latest data
     this.semanticKnowledgeSubscribed = this.localAnalysisService.getSemanticKnowledgeUpdateListener()
       .subscribe(subject => {
+        // clear
+        this.semanticKnowledge = [];
         for(let i in subject.semanticKnowledge){
-          console.log(subject.semanticKnowledge[i]);
           let semanticKnowledgeInstance : SemanticKnowledge = {name:"", keywords:[]};
           semanticKnowledgeInstance.name = subject.semanticKnowledge[i].name;
           semanticKnowledgeInstance.keywords = subject.semanticKnowledge[i].keywords;
           this.semanticKnowledge.push(semanticKnowledgeInstance);
         }
-        console.log("sem" + this.semanticKnowledge);
-        this.dataSource = new MatTableDataSource(this.semanticKnowledge);
+        // no semantic analysis was ever executed before, so there was not data received from backend
+        if(this.semanticKnowledge.length==0){
+          this.requestDefaultAnalysis();
+          console.log("Default analysis is executed, since no data was there yet")
+        }
+        this.setUpOnUpdate();
       });
+  }
+
+  setUpOnUpdate(){
+    this.dataSource = new MatTableDataSource(this.semanticKnowledge);
+    this.setUpSearchExtendsPerLayer();
+  }
+
+  ngOnInit(): void {
+    this.localAnalysisService.requestCurrentSemanticKnowledge();
+    this.update();
 
   }
 
+  requestDefaultAnalysis(){
+    this.localAnalysisService.requestSemanticAnalysisResults();
+  }
+
+  // set up table
   ngAfterViewInit() {
     this.dataSource.sort = this.sort;
     const initialSelection = [];
     const allowMultiSelect = true;
     this.selection = new SelectionModel<SemanticKnowledge>(allowMultiSelect, initialSelection);
-    // 1) get all layers from service
-    // 2) set default extent for all layers to 3
-    // 3) for all layers, look in db if there are already results from a past semantic analysis. if yes, fill results in
-    // get semantic analysis results from backend
+  }
 
+  updateSearchExtendForALayer(searchExtent, element){
+    for(let i in this.semanticAnalysisExtensions){
+      if(this.semanticAnalysisExtensions[i].layer == element.name){
+        this.semanticAnalysisExtensions[i].searchExtent = searchExtent;
+      }
+    }
+  }
+
+  setUpSearchExtendsPerLayer(){
+    // clear
+    this.semanticAnalysisExtensions = [];
+    for(let i in this.semanticKnowledge){
+      let searchExtentPerLayer : SemanticAnalysisExtension = {"layer": "", "searchExtent": 0, "additionalKeywords": []};
+      searchExtentPerLayer.layer = this.semanticKnowledge[i].name;
+      searchExtentPerLayer.searchExtent = 3;
+      this.semanticAnalysisExtensions.push(searchExtentPerLayer);
+    }
   }
 
   onSaveAssignment(element, myReview){
@@ -76,7 +121,8 @@ export class SemanticAnalysisComponent implements AfterViewInit, OnInit, OnDestr
   }
 
   onStartSemanticAnalysisForALayer(element){
-    console.log(element.name);
+    let layer = element.name;
+    this.localAnalysisService.requestSemanticAnalysisForALayerResult(layer, this.semanticAnalysisExtensions);
   }
 
   onStartSemanticAnalysisForAll(){

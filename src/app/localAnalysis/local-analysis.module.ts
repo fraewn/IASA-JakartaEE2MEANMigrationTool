@@ -9,6 +9,8 @@ import {MatCheckboxModule} from "@angular/material/checkbox";
 import {MatTabsModule} from "@angular/material/tabs";
 import {SemanticAnalysisComponent} from "./semanticAnalysis/semantic-analysis.component";
 import {MatSlideToggleModule} from "@angular/material/slide-toggle";
+import {MatOptionModule} from "@angular/material/core";
+import {MatSelectModule} from "@angular/material/select";
 
 @NgModule({
   declarations: [
@@ -24,7 +26,10 @@ import {MatSlideToggleModule} from "@angular/material/slide-toggle";
     MatSortModule,
     MatCheckboxModule,
     MatTabsModule,
-    MatSlideToggleModule
+    MatSlideToggleModule,
+    MatOptionModule,
+    MatSelectModule
+
   ]
 
 })
