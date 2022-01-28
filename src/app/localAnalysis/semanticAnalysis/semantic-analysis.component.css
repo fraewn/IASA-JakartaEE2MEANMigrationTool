@@ -12,7 +12,8 @@ table {
 }
 
 th {
-  width: 30%;
+  width: 14%;
+
 }
 
 tr.mat-footer-row {
@@ -20,7 +21,7 @@ tr.mat-footer-row {
 }
 
 .mat-header-cell, mat-cell {
-  text-align: center;
+  text-align: left;
   text-anchor: middle;
 }
 
@@ -45,6 +46,7 @@ tr.mat-footer-row {
 .mat-raised-button, .mat-form-field {
   margin: 1.5em;
   font-size: 0.8em;
+  padding: -10px;
 }
 
 #keywords {
