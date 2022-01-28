@@ -50,3 +50,5 @@ configuration.json
 auth.json
 nodemon.json
 backend/mail
+
+**/environments

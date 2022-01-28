@@ -15,6 +15,10 @@ th {
   width: 30%;
 }
 
+tr.mat-footer-row {
+  font-weight: bold;
+}
+
 .mat-header-cell, mat-cell {
   text-align: center;
   text-anchor: middle;
@@ -35,12 +39,17 @@ th {
 }
 
 .demo-row-is-clicked {
-  font-weight: bolder;
+
 }
 
 .mat-raised-button, .mat-form-field {
   margin: 1.5em;
   font-size: 0.8em;
+}
+
+#keywords {
+  width: 50%;
+  padding: 1em;
 }
 
 

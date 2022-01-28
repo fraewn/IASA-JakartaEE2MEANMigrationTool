@@ -1,35 +1,16 @@
 import {LiveAnnouncer} from '@angular/cdk/a11y';
-import {AfterViewInit, Component, ViewChild} from '@angular/core';
+import {AfterViewInit, Component, Input, OnDestroy, OnInit, ViewChild} from '@angular/core';
 import {MatSort, Sort} from '@angular/material/sort';
 import {MatTableDataSource} from '@angular/material/table';
 import {SelectionModel} from "@angular/cdk/collections";
 import {SemanticKnowledge} from "../local-analysis.model";
+import {LocalAnalysisService} from "../local-analysis.service";
+import {Subscription} from "rxjs";
 
-
-export interface PeriodicElement {
-  name: string;
-  position: number;
-  weight: number;
-  symbol: string;
-  review: string;
-}
-
-const ELEMENT_DATA: PeriodicElement[] = [
-  {position: 1, name: 'Hydrogen', weight: 1.0079, symbol: 'H', review: ''},
-  {position: 2, name: 'Helium', weight: 4.0026, symbol: 'He', review: ''},
-  {position: 3, name: 'Lithium', weight: 6.941, symbol: 'Li', review: 'test2'},
-  {position: 4, name: 'Beryllium', weight: 9.0122, symbol: 'Be', review: ''},
-  {position: 5, name: 'Boron', weight: 10.811, symbol: 'B', review: 'test'},
-  {position: 6, name: 'Carbon', weight: 12.0107, symbol: 'C', review: ''},
-  {position: 7, name: 'Nitrogen', weight: 14.0067, symbol: 'N', review: ''},
-  {position: 8, name: 'Oxygen', weight: 15.9994, symbol: 'O', review: ''},
-  {position: 9, name: 'Fluorine', weight: 18.9984, symbol: 'F', review: ''},
-  {position: 10, name: 'Neon', weight: 20.1797, symbol: 'Ne', review: ''},
-];
 
 const SEMANTIC_ANALYSIS_DATA : SemanticKnowledge[] = [
-  {id: 'l1', name: 'Persistence Layer', keywords: ['DAO', 'Service'] },
-  {id: 'l2', name: 'Web Layer', keywords: ['REST', 'Service'] }
+  {name: 'Persistence Layer', keywords: ['DAO', 'Service'] },
+  {name: 'Web Layer', keywords: ['REST', 'Service'] }
 ];
 
 
@@ -38,41 +19,80 @@ const SEMANTIC_ANALYSIS_DATA : SemanticKnowledge[] = [
   templateUrl: 'semantic-analysis.component.html',
   styleUrls: ['semantic-analysis.component.css']
 })
-export class SemanticAnalysisComponent implements AfterViewInit {
+export class SemanticAnalysisComponent implements AfterViewInit, OnInit, OnDestroy{
+  localAnalysisService : LocalAnalysisService;
+
+  @Input()
+  semanticKnowledge : SemanticKnowledge[] = [];
+  private semanticKnowledgeSubscribed : Subscription;
+
+  dataSource = new MatTableDataSource<SemanticKnowledge>()
   displayedColumns: string[] = ['name', 'include', 'searchExtent',  'execute', 'keywords', 'review', 'check', 'save'];
-  dataSource = new MatTableDataSource(SEMANTIC_ANALYSIS_DATA);
-  selection;
-  clickedRows = new Set<SemanticKnowledge>();
   public myReviews : any = {};
-
-  constructor(private _liveAnnouncer: LiveAnnouncer) {
-
-  }
-
   @ViewChild(MatSort) sort: MatSort;
 
+  selection;
+  extentForAll = 3;
+  layers = {};
+  clickedRows = new Set<SemanticKnowledge>();
+
+  constructor(private _liveAnnouncer: LiveAnnouncer, localAnalysisService : LocalAnalysisService) {
+    this.localAnalysisService = localAnalysisService;
+  }
+
+  ngOnInit(): void {
+    this.localAnalysisService.requestSemanticAnalysisResults();
+    this.semanticKnowledgeSubscribed = this.localAnalysisService.getSemanticKnowledgeUpdateListener()
+      .subscribe(subject => {
+        for(let i in subject.semanticKnowledge){
+          console.log(subject.semanticKnowledge[i]);
+          let semanticKnowledgeInstance : SemanticKnowledge = {name:"", keywords:[]};
+          semanticKnowledgeInstance.name = subject.semanticKnowledge[i].name;
+          semanticKnowledgeInstance.keywords = subject.semanticKnowledge[i].keywords;
+          this.semanticKnowledge.push(semanticKnowledgeInstance);
+        }
+        console.log("sem" + this.semanticKnowledge);
+        this.dataSource = new MatTableDataSource(this.semanticKnowledge);
+      });
+
+  }
 
   ngAfterViewInit() {
     this.dataSource.sort = this.sort;
     const initialSelection = [];
     const allowMultiSelect = true;
     this.selection = new SelectionModel<SemanticKnowledge>(allowMultiSelect, initialSelection);
+    // 1) get all layers from service
+    // 2) set default extent for all layers to 3
+    // 3) for all layers, look in db if there are already results from a past semantic analysis. if yes, fill results in
+    // get semantic analysis results from backend
 
   }
 
   onSaveAssignment(element, myReview){
     console.log(myReview);
+    console.log(element.name);
     // save review in database
   }
 
-  onEnterKeyword(element, text){
+  onStartSemanticAnalysisForALayer(element){
+    console.log(element.name);
+  }
+
+  onStartSemanticAnalysisForAll(){
+    console.log("start semantic analysis for all");
+  }
+
+  onStartAnalysisWithOwnKeywords(element, text){
     console.log(text);
     let additionalKeywords : string[] = text.split(", ");
     console.log(additionalKeywords);
+    console.log(element.name);
   }
 
-  splitByCommata(text){
-
+  onSetExtentForAll(extentForAll){
+    this.extentForAll = extentForAll;
+    console.log(this.extentForAll);
   }
 
 
@@ -109,6 +129,11 @@ export class SemanticAnalysisComponent implements AfterViewInit {
       this.selection.clear() :
       this.dataSource.data.forEach(row => this.selection.select(row));
   }
+
+  ngOnDestroy(): void {
+  }
+
+
 }
 
 
