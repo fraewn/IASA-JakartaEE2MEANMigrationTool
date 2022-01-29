@@ -145,9 +145,15 @@ export class SemanticAnalysisComponent implements AfterViewInit, OnInit, OnDestr
     this.localAnalysisService.requestDeleteLayer(layer);
   }
 
+  onEditKeywords(element){
+    this.localAnalysisService.navigateToEditKeywordComponent();
+  }
+
   onStartSemanticAnalysisForAll(){
     console.log("start semantic analysis for all");
   }
+
+
 
 
 

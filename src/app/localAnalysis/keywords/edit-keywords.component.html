@@ -1,0 +1,18 @@
+<title>Edit keywords</title>
+<div cdkDropListGroup>
+<div id="dragAndDropLists">
+  <div class="drag-drop-container" *ngFor="let semanticKnowledgeInstance of semanticKnowledge">
+    <h2> {{semanticKnowledgeInstance.name}}</h2>
+    <div
+      cdkDropList
+      [cdkDropListData]="semanticKnowledgeInstance.keywords"
+      class="drag-drop-list"
+      (cdkDropListDropped)="drop($event)">
+        <div class="drag-drop-box" *ngFor="let word of semanticKnowledgeInstance.keywords" cdkDrag>{{word}}
+          <button mat-button color="warn" (click)="onDeleteKeyword(semanticKnowledgeInstance.name, word)">Delete</button>
+        </div>
+    </div>
+  </div>
+</div>
+</div>
+

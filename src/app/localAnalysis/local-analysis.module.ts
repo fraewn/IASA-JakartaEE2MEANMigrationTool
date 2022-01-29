@@ -11,10 +11,13 @@ import {SemanticAnalysisComponent} from "./semanticAnalysis/semantic-analysis.co
 import {MatSlideToggleModule} from "@angular/material/slide-toggle";
 import {MatOptionModule} from "@angular/material/core";
 import {MatSelectModule} from "@angular/material/select";
+import {EditKeywordsComponent} from "./keywords/edit-keywords.component";
+import {DragDropModule} from "@angular/cdk/drag-drop";
 
 @NgModule({
   declarations: [
-    SemanticAnalysisComponent
+    SemanticAnalysisComponent,
+    EditKeywordsComponent
   ],
   imports: [
     // this one we need to use ngModule
@@ -28,7 +31,8 @@ import {MatSelectModule} from "@angular/material/select";
     MatTabsModule,
     MatSlideToggleModule,
     MatOptionModule,
-    MatSelectModule
+    MatSelectModule,
+    DragDropModule
 
   ]
 

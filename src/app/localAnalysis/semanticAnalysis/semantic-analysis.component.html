@@ -66,7 +66,7 @@
         <th mat-header-cell *matHeaderCellDef>
           Keywords
         </th>
-        <td mat-cell id="keywords" *matCellDef="let element"> {{element.keywords.join(', ')}} </td>
+        <td mat-cell id="keywords" *matCellDef="let element" (click)="onEditKeywords(element)"> {{element.keywords.join(', ')}}  </td>
         <td mat-footer-cell *matFooterCellDef>  </td>
       </ng-container>
 
