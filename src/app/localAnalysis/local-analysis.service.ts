@@ -18,6 +18,7 @@ export class LocalAnalysisService{
   private BACKEND_URL_CURRENT_SEMANTIC_ANALYSIS_PER_LAYER = environment.backend + "/semanticAnalysisForOneLayer";
   private BACKEND_URL_CURRENT_SEMANTIC_ANALYSIS_PER_LAYER_EXTENDED = environment.backend + "/semanticAnalysisForOneLayerExtended";
   private BACKEND_URL_SAVE_ALL_PER_LAYER = environment.backend + "/semanticAnalysisSaveAll"
+  private BACKEND_URL_DELETE_LAYER = environment.backend + "/semanticAnalysis/deleteLayer"
 
   constructor(private http: HttpClient, private router: Router) {}
 
@@ -106,6 +107,23 @@ export class LocalAnalysisService{
         headers: headers,
         params: params
       }).pipe(map(response => ({
+      semanticKnowledgeObjectArray: response
+    }))).subscribe(objectArr => {
+      let transformedSemanticKnowledgeData : SemanticKnowledge[] = [];
+      for(let i in objectArr.semanticKnowledgeObjectArray){
+        let semanticKnowledge : SemanticKnowledge = {name:"", keywords:[]};
+        semanticKnowledge.name = objectArr.semanticKnowledgeObjectArray[i].name;
+        semanticKnowledge.keywords = objectArr.semanticKnowledgeObjectArray[i].keywords;
+        transformedSemanticKnowledgeData.push(semanticKnowledge);
+      }
+      this.semanticKnowledgeUpdated.next({semanticKnowledge : transformedSemanticKnowledgeData });
+    });
+  }
+
+  requestDeleteLayer(layer) {
+    const queryParams = `?layer=${layer}`;
+    this.http.delete(
+      this.BACKEND_URL_DELETE_LAYER + queryParams).pipe(map(response => ({
       semanticKnowledgeObjectArray: response
     }))).subscribe(objectArr => {
       let transformedSemanticKnowledgeData : SemanticKnowledge[] = [];

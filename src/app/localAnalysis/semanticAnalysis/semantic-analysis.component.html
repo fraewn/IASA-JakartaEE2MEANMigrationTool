@@ -28,10 +28,10 @@
         <td mat-footer-cell *matFooterCellDef>  </td>
       </ng-container>
 
-      <ng-container matColumnDef="include">
-        <th mat-header-cell *matHeaderCellDef> Include in <br> semantic analysis </th>
+      <ng-container matColumnDef="exclude">
+        <th mat-header-cell *matHeaderCellDef> Include </th>
         <td mat-cell *matCellDef="let element; let i = index">
-          <mat-slide-toggle (click)="onSaveAssignment(element, myReviews[i])"></mat-slide-toggle>
+          <mat-slide-toggle checked=true (click)="onExcludeLayer(element.name)"></mat-slide-toggle>
         </td>
         <td mat-footer-cell *matFooterCellDef> </td>
       </ng-container>

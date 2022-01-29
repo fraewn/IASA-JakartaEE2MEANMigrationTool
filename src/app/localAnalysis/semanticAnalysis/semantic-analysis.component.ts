@@ -34,14 +34,14 @@ export class SemanticAnalysisComponent implements AfterViewInit, OnInit, OnDestr
 
   // table
   dataSource = new MatTableDataSource<SemanticKnowledge>()
-  displayedColumns: string[] = ['name', 'include', 'searchExtent',  'execute', 'keywords', 'review', 'check', 'save'];
+  displayedColumns: string[] = ['name', 'searchExtent',  'execute', 'keywords', 'review', 'check', 'save', 'exclude'];
   public myReviews : any = {};
   public additionalKeywords: any = {};
   @ViewChild(MatSort) sort: MatSort;
 
   // table operations
   selection;
-  searchExtents : number[] = [1,2,3,4];
+  searchExtents : number[] = [2,3,4];
   semanticAnalysisExtensions : SemanticAnalysisExtension[] = [];
   extentForAll = 3;
   layers = {};
@@ -141,7 +141,9 @@ export class SemanticAnalysisComponent implements AfterViewInit, OnInit, OnDestr
     this.localAnalysisService.requestSaveAllPerLayer(layer, this.semanticAnalysisExtensions);
   }
 
-
+  onExcludeLayer(layer){
+    this.localAnalysisService.requestDeleteLayer(layer);
+  }
 
   onStartSemanticAnalysisForAll(){
     console.log("start semantic analysis for all");
