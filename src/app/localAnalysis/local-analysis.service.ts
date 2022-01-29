@@ -19,11 +19,28 @@ export class LocalAnalysisService{
   private BACKEND_URL_SAVE_ALL_PER_LAYER = environment.backend + "/semanticAnalysisSaveAll"
   private BACKEND_URL_DELETE_LAYER = environment.backend + "/semanticAnalysis/deleteLayer"
   private BACKEND_URL_DELETE_KEYWORD_IN_LAYER = environment.backend + "/semanticAnalysis/deleteKeywordInLayer"
-
+  private BACKEND_URL_MOVE_KEYWORD = environment.backend + "/semanticAnalysis/moveKeyword"
   constructor(private http: HttpClient, private router: Router) {}
 
   navigateToEditKeywordComponent(){
     this.router.navigate(["/editKeywords"]);
+  }
+
+  requestMoveKeyword(keyword, oldLayer, newLayer){
+    const queryParams = `?oldLayer=${oldLayer}&newLayer=${newLayer}&keyword=${keyword}`;
+    this.http.get(
+      this.BACKEND_URL_MOVE_KEYWORD + queryParams).pipe(map(response => ({
+      semanticKnowledgeObjectArray: response
+    }))).subscribe(objectArr => {
+      let transformedSemanticKnowledgeData : SemanticKnowledge[] = [];
+      for(let i in objectArr.semanticKnowledgeObjectArray){
+        let semanticKnowledge : SemanticKnowledge = {name:"", keywords:[]};
+        semanticKnowledge.name = objectArr.semanticKnowledgeObjectArray[i].name;
+        semanticKnowledge.keywords = objectArr.semanticKnowledgeObjectArray[i].keywords;
+        transformedSemanticKnowledgeData.push(semanticKnowledge);
+      }
+      this.semanticKnowledgeUpdated.next({semanticKnowledge : transformedSemanticKnowledgeData });
+    });
   }
 
   requestDeleteKeywordFromLayer(layer, keyword){

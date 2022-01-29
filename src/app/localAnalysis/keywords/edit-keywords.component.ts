@@ -1,9 +1,9 @@
-import {Component, OnDestroy, OnInit} from '@angular/core';
+import {AfterViewInit, Component, ElementRef, OnDestroy, OnInit, ViewChild} from '@angular/core';
 import {CdkDragDrop, moveItemInArray, transferArrayItem} from '@angular/cdk/drag-drop';
 import {SemanticKnowledge} from "../local-analysis.model";
-import {Subscription} from "rxjs";
-import {LiveAnnouncer} from "@angular/cdk/a11y";
+import {fromEvent, Observable, Subscription} from "rxjs";
 import {LocalAnalysisService} from "../local-analysis.service";
+import {delay, takeUntil, tap} from "rxjs/operators";
 
 /**
  * @title Drag&Drop connected sorting
@@ -16,6 +16,7 @@ import {LocalAnalysisService} from "../local-analysis.service";
 export class EditKeywordsComponent implements OnInit, OnDestroy{
   localAnalysisService : LocalAnalysisService;
   lists = [];
+
   semanticKnowledge : SemanticKnowledge[] = [];
   private semanticKnowledgeSubscribed : Subscription;
 
@@ -36,6 +37,10 @@ export class EditKeywordsComponent implements OnInit, OnDestroy{
     this.localAnalysisService.requestCurrentSemanticKnowledge();
     this.update();
     this.lists.push(1);
+  }
+
+  saveAll(){
+
   }
 
   update(){
@@ -60,16 +65,23 @@ export class EditKeywordsComponent implements OnInit, OnDestroy{
     this.localAnalysisService.requestDeleteKeywordFromLayer(layer, keyword);
   }
 
-  drop(event: CdkDragDrop<string[]>) {
+  drop(event: CdkDragDrop<string[]>, layer) {
     if (event.previousContainer === event.container) {
       moveItemInArray(event.container.data, event.previousIndex, event.currentIndex);
     } else {
       transferArrayItem(
+
         event.previousContainer.data,
         event.container.data,
         event.previousIndex,
         event.currentIndex,
       );
+      // all the data i need for real change
+      this.moveKeyword(event.container.data[event.currentIndex], event.previousContainer.id, event.container.id);
     }
+  }
+
+  moveKeyword(keyword, oldLayer, newLayer){
+    this.localAnalysisService.requestMoveKeyword(keyword, oldLayer, newLayer);
   }
 }
