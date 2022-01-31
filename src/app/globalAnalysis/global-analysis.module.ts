@@ -8,6 +8,9 @@ import { MatTableModule } from '@angular/material/table'
 import {MatSortModule} from "@angular/material/sort";
 import {MatCheckboxModule} from "@angular/material/checkbox";
 import {MatTabsModule} from "@angular/material/tabs";
+import {DragDropModule} from "@angular/cdk/drag-drop";
+import {MatOptionModule} from "@angular/material/core";
+import {MatSelectModule} from "@angular/material/select";
 
 @NgModule({
   declarations: [
@@ -22,7 +25,9 @@ import {MatTabsModule} from "@angular/material/tabs";
     MatTableModule,
     MatSortModule,
     MatCheckboxModule,
-    MatTabsModule
+    MatTabsModule,
+    MatOptionModule,
+    MatSelectModule
   ]
 
 })

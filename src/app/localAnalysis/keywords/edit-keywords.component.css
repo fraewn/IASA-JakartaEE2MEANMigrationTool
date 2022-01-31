@@ -1,6 +1,10 @@
-#savebutton{
-
+#savebutton {
 }
+
+.h1{
+  color: darkgray;
+}
+
 .drag-drop-container {
   width: 15em;
   max-width: 100%;

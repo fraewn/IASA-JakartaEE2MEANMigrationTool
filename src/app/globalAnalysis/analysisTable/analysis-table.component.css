@@ -3,8 +3,27 @@ table {
   width: 100%;
 }
 
+.w-75{
+  max-width: 30px;
+}
+#nodename {
+  width: 1em;
+}
 th {
   width: 40%;
+}
+
+.mat-raised-button, .mat-form-field {
+  margin-left: 1.5em;
+  font-size: 0.8em;
+}
+
+.mat-cell {
+
+}
+
+.highlight {
+  background-color: #FFFFB5
 }
 
 .mat-column-select {
@@ -22,5 +41,4 @@ th {
 }
 
 .demo-row-is-clicked {
-  font-weight: bold;
 }

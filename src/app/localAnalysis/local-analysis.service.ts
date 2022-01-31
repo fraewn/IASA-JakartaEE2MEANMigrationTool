@@ -30,13 +30,13 @@ export class LocalAnalysisService{
     const queryParams = `?oldLayer=${oldLayer}&newLayer=${newLayer}&keyword=${keyword}`;
     this.http.get(
       this.BACKEND_URL_MOVE_KEYWORD + queryParams).pipe(map(response => ({
-      semanticKnowledgeObjectArray: response
+      nodeKnowledgeObjectArray: response
     }))).subscribe(objectArr => {
       let transformedSemanticKnowledgeData : SemanticKnowledge[] = [];
-      for(let i in objectArr.semanticKnowledgeObjectArray){
+      for(let i in objectArr.nodeKnowledgeObjectArray){
         let semanticKnowledge : SemanticKnowledge = {name:"", keywords:[]};
-        semanticKnowledge.name = objectArr.semanticKnowledgeObjectArray[i].name;
-        semanticKnowledge.keywords = objectArr.semanticKnowledgeObjectArray[i].keywords;
+        semanticKnowledge.name = objectArr.nodeKnowledgeObjectArray[i].name;
+        semanticKnowledge.keywords = objectArr.nodeKnowledgeObjectArray[i].keywords;
         transformedSemanticKnowledgeData.push(semanticKnowledge);
       }
       this.semanticKnowledgeUpdated.next({semanticKnowledge : transformedSemanticKnowledgeData });
@@ -47,13 +47,13 @@ export class LocalAnalysisService{
     const queryParams = `?layer=${layer}&keyword=${keyword}`;
     this.http.delete(
       this.BACKEND_URL_DELETE_KEYWORD_IN_LAYER + queryParams).pipe(map(response => ({
-      semanticKnowledgeObjectArray: response
+      nodeKnowledgeObjectArray: response
     }))).subscribe(objectArr => {
       let transformedSemanticKnowledgeData : SemanticKnowledge[] = [];
-      for(let i in objectArr.semanticKnowledgeObjectArray){
+      for(let i in objectArr.nodeKnowledgeObjectArray){
         let semanticKnowledge : SemanticKnowledge = {name:"", keywords:[]};
-        semanticKnowledge.name = objectArr.semanticKnowledgeObjectArray[i].name;
-        semanticKnowledge.keywords = objectArr.semanticKnowledgeObjectArray[i].keywords;
+        semanticKnowledge.name = objectArr.nodeKnowledgeObjectArray[i].name;
+        semanticKnowledge.keywords = objectArr.nodeKnowledgeObjectArray[i].keywords;
         transformedSemanticKnowledgeData.push(semanticKnowledge);
       }
       this.semanticKnowledgeUpdated.next({semanticKnowledge : transformedSemanticKnowledgeData });
@@ -64,13 +64,13 @@ export class LocalAnalysisService{
   requestSemanticAnalysisResults() {
     this.http.get(
       this.BACKEND_URL_SEMANTICANALYSIS).pipe(map(response => ({
-      semanticKnowledgeObjectArray: response
+      nodeKnowledgeObjectArray: response
     }))).subscribe(objectArr => {
       let transformedSemanticKnowledgeData : SemanticKnowledge[] = [];
-      for(let i in objectArr.semanticKnowledgeObjectArray){
+      for(let i in objectArr.nodeKnowledgeObjectArray){
         let semanticKnowledge : SemanticKnowledge = {name:"", keywords:[]};
-        semanticKnowledge.name = objectArr.semanticKnowledgeObjectArray[i].name;
-        semanticKnowledge.keywords = objectArr.semanticKnowledgeObjectArray[i].keywords;
+        semanticKnowledge.name = objectArr.nodeKnowledgeObjectArray[i].name;
+        semanticKnowledge.keywords = objectArr.nodeKnowledgeObjectArray[i].keywords;
         transformedSemanticKnowledgeData.push(semanticKnowledge);
       }
       this.semanticKnowledgeUpdated.next({semanticKnowledge : transformedSemanticKnowledgeData });
@@ -86,13 +86,13 @@ export class LocalAnalysisService{
         headers: headers,
         params: params
       }).pipe(map(response => ({
-      semanticKnowledgeObjectArray: response
+      nodeKnowledgeObjectArray: response
     }))).subscribe(objectArr => {
       let transformedSemanticKnowledgeData : SemanticKnowledge[] = [];
-      for(let i in objectArr.semanticKnowledgeObjectArray){
+      for(let i in objectArr.nodeKnowledgeObjectArray){
         let semanticKnowledge : SemanticKnowledge = {name:"", keywords:[]};
-        semanticKnowledge.name = objectArr.semanticKnowledgeObjectArray[i].name;
-        semanticKnowledge.keywords = objectArr.semanticKnowledgeObjectArray[i].keywords;
+        semanticKnowledge.name = objectArr.nodeKnowledgeObjectArray[i].name;
+        semanticKnowledge.keywords = objectArr.nodeKnowledgeObjectArray[i].keywords;
         transformedSemanticKnowledgeData.push(semanticKnowledge);
       }
       this.semanticKnowledgeUpdated.next({semanticKnowledge : transformedSemanticKnowledgeData });
@@ -108,13 +108,13 @@ export class LocalAnalysisService{
         headers: headers,
         params: params
       }).pipe(map(response => ({
-      semanticKnowledgeObjectArray: response
+      nodeKnowledgeObjectArray: response
     }))).subscribe(objectArr => {
       let transformedSemanticKnowledgeData : SemanticKnowledge[] = [];
-      for(let i in objectArr.semanticKnowledgeObjectArray){
+      for(let i in objectArr.nodeKnowledgeObjectArray){
         let semanticKnowledge : SemanticKnowledge = {name:"", keywords:[]};
-        semanticKnowledge.name = objectArr.semanticKnowledgeObjectArray[i].name;
-        semanticKnowledge.keywords = objectArr.semanticKnowledgeObjectArray[i].keywords;
+        semanticKnowledge.name = objectArr.nodeKnowledgeObjectArray[i].name;
+        semanticKnowledge.keywords = objectArr.nodeKnowledgeObjectArray[i].keywords;
         transformedSemanticKnowledgeData.push(semanticKnowledge);
       }
       this.semanticKnowledgeUpdated.next({semanticKnowledge : transformedSemanticKnowledgeData });
@@ -124,13 +124,13 @@ export class LocalAnalysisService{
   requestCurrentSemanticKnowledge(){
     this.http.get(
       this.BACKEND_URL_CURRENT_SEMANTIC_KNOWLEDGE).pipe(map(response => ({
-      semanticKnowledgeObjectArray: response
+      nodeKnowledgeObjectArray: response
     }))).subscribe(objectArr => {
       let transformedSemanticKnowledgeData : SemanticKnowledge[] = [];
-      for(let i in objectArr.semanticKnowledgeObjectArray){
+      for(let i in objectArr.nodeKnowledgeObjectArray){
         let semanticKnowledge : SemanticKnowledge = {name:"", keywords:[]};
-        semanticKnowledge.name = objectArr.semanticKnowledgeObjectArray[i].name;
-        semanticKnowledge.keywords = objectArr.semanticKnowledgeObjectArray[i].keywords;
+        semanticKnowledge.name = objectArr.nodeKnowledgeObjectArray[i].name;
+        semanticKnowledge.keywords = objectArr.nodeKnowledgeObjectArray[i].keywords;
         transformedSemanticKnowledgeData.push(semanticKnowledge);
       }
       this.semanticKnowledgeUpdated.next({semanticKnowledge : transformedSemanticKnowledgeData });
@@ -146,13 +146,13 @@ export class LocalAnalysisService{
         headers: headers,
         params: params
       }).pipe(map(response => ({
-      semanticKnowledgeObjectArray: response
+      nodeKnowledgeObjectArray: response
     }))).subscribe(objectArr => {
       let transformedSemanticKnowledgeData : SemanticKnowledge[] = [];
-      for(let i in objectArr.semanticKnowledgeObjectArray){
+      for(let i in objectArr.nodeKnowledgeObjectArray){
         let semanticKnowledge : SemanticKnowledge = {name:"", keywords:[]};
-        semanticKnowledge.name = objectArr.semanticKnowledgeObjectArray[i].name;
-        semanticKnowledge.keywords = objectArr.semanticKnowledgeObjectArray[i].keywords;
+        semanticKnowledge.name = objectArr.nodeKnowledgeObjectArray[i].name;
+        semanticKnowledge.keywords = objectArr.nodeKnowledgeObjectArray[i].keywords;
         transformedSemanticKnowledgeData.push(semanticKnowledge);
       }
       this.semanticKnowledgeUpdated.next({semanticKnowledge : transformedSemanticKnowledgeData });
@@ -163,13 +163,13 @@ export class LocalAnalysisService{
     const queryParams = `?layer=${layer}`;
     this.http.delete(
       this.BACKEND_URL_DELETE_LAYER + queryParams).pipe(map(response => ({
-      semanticKnowledgeObjectArray: response
+      nodeKnowledgeObjectArray: response
     }))).subscribe(objectArr => {
       let transformedSemanticKnowledgeData : SemanticKnowledge[] = [];
-      for(let i in objectArr.semanticKnowledgeObjectArray){
+      for(let i in objectArr.nodeKnowledgeObjectArray){
         let semanticKnowledge : SemanticKnowledge = {name:"", keywords:[]};
-        semanticKnowledge.name = objectArr.semanticKnowledgeObjectArray[i].name;
-        semanticKnowledge.keywords = objectArr.semanticKnowledgeObjectArray[i].keywords;
+        semanticKnowledge.name = objectArr.nodeKnowledgeObjectArray[i].name;
+        semanticKnowledge.keywords = objectArr.nodeKnowledgeObjectArray[i].keywords;
         transformedSemanticKnowledgeData.push(semanticKnowledge);
       }
       this.semanticKnowledgeUpdated.next({semanticKnowledge : transformedSemanticKnowledgeData });

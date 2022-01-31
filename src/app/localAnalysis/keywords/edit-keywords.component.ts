@@ -39,10 +39,6 @@ export class EditKeywordsComponent implements OnInit, OnDestroy{
     this.lists.push(1);
   }
 
-  saveAll(){
-
-  }
-
   update(){
     // fill up with latest data
     this.semanticKnowledgeSubscribed = this.localAnalysisService.getSemanticKnowledgeUpdateListener()

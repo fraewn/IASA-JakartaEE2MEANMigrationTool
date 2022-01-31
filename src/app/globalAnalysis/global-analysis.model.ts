@@ -1,5 +1,4 @@
-export interface globalAnalysisModel{
-  "_id" : string,
+export interface NodeKnowledge{
   "name" : string,
   "label" : string[],
   "triangleScore" : number,
@@ -8,7 +7,12 @@ export interface globalAnalysisModel{
   "pageRankScore" : number,
   "closenessCentralityScore" : number,
   "classIsEntity" : boolean,
+  "representedEntity" : string,
+  "keywords" : string[],
+  "associatedLayers" : string[],
+  "calculatedInterpretation" : string,
   "reviewNecessary" : boolean,
   "review" : false,
-  "_class" : string
+  "representedMeanModuleType" : string,
+  "associatedMeanModuleType" : string
 }
