@@ -10,6 +10,7 @@ import {RoleGuard} from "./permission/role.guard";
 import {AnalysisTableComponent} from "./globalAnalysis/analysisTable/analysis-table.component";
 import {SemanticAnalysisComponent} from "./localAnalysis/semanticAnalysis/semantic-analysis.component";
 import {EditKeywordsComponent} from "./localAnalysis/keywords/edit-keywords.component";
+import {OntologyComponent} from "./localAnalysis/ontology/ontology-component";
 
 const routes: Routes = [
   { path: '', component: ReportListComponent },
@@ -17,6 +18,7 @@ const routes: Routes = [
   { path: 'globalAnalysis', component: AnalysisTableComponent},
   { path: 'localAnalysis', component: SemanticAnalysisComponent},
   { path: 'editKeywords', component: EditKeywordsComponent},
+  { path: 'semanticAnalysis/ontology', component: OntologyComponent},
   { path: 'failure', component: FailureComponent},
   { path: 'report/create', component: ReportCreateComponent, canActivate: [AuthGuard]},
   { path: 'report/edit/:reportId', component: ReportCreateComponent, canActivate: [AuthGuard]},

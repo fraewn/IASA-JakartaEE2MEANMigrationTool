@@ -1,0 +1,87 @@
+
+    <mat-expansion-panel hideToggle>
+      <mat-expansion-panel-header>
+        <mat-panel-title>
+          How does it work?
+        </mat-panel-title>
+      </mat-expansion-panel-header>
+      <p>The semantic analysis is a powerful, but voluntary step in the migration process from JavaEE to MEAN. It can only be applied within
+        The semantic analysis is a powerful, but voluntary step in the migration process from JavaEE to MEAN. It can only be applied within
+        The semantic analysis is a powerful, but voluntary step in the migration process from JavaEE to MEAN. It can only be applied within
+        The semantic analysis is a powerful, but voluntary step in the migration process from JavaEE to MEAN. It can only be applied within
+        The semantic analysis is a powerful, but voluntary step in the migration process from JavaEE to MEAN. It can only be applied within
+        *Run the semantic <br> algorithm again <br> with the additional <br> keywords to double <br> check
+        Enter own keywords <br> separated by comma  and whitespace
+        Set the search <br> extent for semantic <br> analysis in  layer neighbourhood</p>
+    </mat-expansion-panel>
+
+    <mat-table #table [dataSource]="dataSource" matSort (matSortChange)="announceSortChange($event)"
+               class="mat-elevation-z0">
+
+
+      <ng-container matColumnDef="javaEEComponent" >
+        <th mat-header-cell *matHeaderCellDef mat-sort-header sortActionDescription="Sort by component">JavaEE Component</th>
+        <td mat-cell *matCellDef="let element"> {{element.javaEEComponent}} </td>
+      </ng-container>
+
+
+
+      <ng-container matColumnDef="description">
+        <th mat-header-cell *matHeaderCellDef> Description </th>
+        <td mat-cell *matCellDef="let element"> {{element.description}} </td>
+      </ng-container>
+
+
+      <ng-container matColumnDef="associatedKeyword">
+        <th mat-header-cell *matHeaderCellDef> Current <br> associated <br> keyword </th>
+        <td mat-cell *matCellDef="let element"> {{element.associatedKeyword}} </td>
+      </ng-container>
+
+
+      <ng-container matColumnDef="editKeyword">
+        <th mat-header-cell *matHeaderCellDef> Associate <br> a keyword </th>
+        <td mat-cell *matCellDef="let element; let i = index" >
+          <div>
+          <form class="example-form" >
+            <mat-form-field class="example-full-width" appearance="fill">
+              <mat-label>Keyword</mat-label>
+              <input type="text" matInput [formControl]="myControl" [matAutocomplete]="auto" >
+              <mat-autocomplete #auto="matAutocomplete" [displayWith]="displayFn">
+                <mat-option *ngFor="let option of filteredOptions | async" [value]="option" (click)="onSelectOption(i, option.name)">
+                  {{option.name}}
+                </mat-option>
+              </mat-autocomplete>
+            </mat-form-field>
+          </form>
+          </div>
+
+        </td>
+      </ng-container>
+
+      <ng-container matColumnDef="save">
+        <th mat-header-cell *matHeaderCellDef> Save </th>
+        <td mat-cell *matCellDef="let element; let i = index">
+          <button mat-raised-button color ="secondary" type ="submit" (click)="onSaveKeywordForJavaEEComponent(element, i)">Save</button>
+        </td>
+      </ng-container>
+
+      <ng-container matColumnDef="layer">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header sortActionDescription="Sort by layer">
+          Layer
+        </th>
+        <td mat-cell *matCellDef="let element"> {{element.layer}} </td>
+      </ng-container>
+
+
+
+
+      <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+      <tr
+        mat-row
+        (click)="clickedRows.add(row)"
+        [class.demo-row-is-clicked]="clickedRows.has(row)"
+        *matRowDef="let row; columns: displayedColumns;"
+      ></tr>
+
+    </mat-table>
+

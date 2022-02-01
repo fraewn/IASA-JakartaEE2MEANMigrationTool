@@ -5,6 +5,7 @@ import {Router} from "@angular/router";
 import {map} from "rxjs/operators";
 import {SemanticKnowledge} from "./local-analysis.model";
 import {Subject} from "rxjs";
+import {OntologyKnowledge} from "./ontology/ontology-component";
 
 
 @Injectable({providedIn: 'root'})
@@ -12,6 +13,8 @@ export class LocalAnalysisService{
 
 
   private semanticKnowledgeUpdated = new Subject<{semanticKnowledge : SemanticKnowledge[]}>();
+  private ontologyKnowledgeUpdated = new Subject<{ontologyKnowledge : OntologyKnowledge[]}>();
+
   private BACKEND_URL_SEMANTICANALYSIS = environment.backend + "/semanticAnalysis";
   private BACKEND_URL_CURRENT_SEMANTIC_KNOWLEDGE = environment.backend + "/semanticAnalysis/current";
   private BACKEND_URL_CURRENT_SEMANTIC_ANALYSIS_PER_LAYER = environment.backend + "/semanticAnalysisForOneLayer";
@@ -20,10 +23,62 @@ export class LocalAnalysisService{
   private BACKEND_URL_DELETE_LAYER = environment.backend + "/semanticAnalysis/deleteLayer"
   private BACKEND_URL_DELETE_KEYWORD_IN_LAYER = environment.backend + "/semanticAnalysis/deleteKeywordInLayer"
   private BACKEND_URL_MOVE_KEYWORD = environment.backend + "/semanticAnalysis/moveKeyword"
+  private BACKEND_URL_CURRENT_ONTOLOGY = environment.backend + "/ontologyKnowledge"
+  private BACKEND_URL_CURRENT_ONTOLOGY_ASSOCIATE_KEYWORD  = environment.backend + "/ontologyKnowledge/associateKeyword"
+
   constructor(private http: HttpClient, private router: Router) {}
 
   navigateToEditKeywordComponent(){
     this.router.navigate(["/editKeywords"]);
+  }
+
+  requestCurrentOntologyKnowledge(){
+    this.http.get(
+      this.BACKEND_URL_CURRENT_ONTOLOGY).pipe(map(response => ({
+      ontologyKnowledgeObjectArray: response
+    }))).subscribe(objectArr => {
+      let transformedOntologyKnowledgeData : OntologyKnowledge[] = [];
+      for(let i in objectArr.ontologyKnowledgeObjectArray){
+        let ontologyKnowledge : OntologyKnowledge = {
+          associatedKeyword: "",
+          description: "",
+          javaEEComponent: "",
+          layer:""
+        };
+        ontologyKnowledge.layer = objectArr.ontologyKnowledgeObjectArray[i].layer;
+        ontologyKnowledge.description = objectArr.ontologyKnowledgeObjectArray[i].description;
+        ontologyKnowledge.javaEEComponent = objectArr.ontologyKnowledgeObjectArray[i].javaEEComponent;
+        ontologyKnowledge.associatedKeyword = objectArr.ontologyKnowledgeObjectArray[i].associatedKeyword;
+        transformedOntologyKnowledgeData.push(ontologyKnowledge);
+      }
+      this.ontologyKnowledgeUpdated.next({ontologyKnowledge : transformedOntologyKnowledgeData });
+    });
+  }
+
+  requestAssociateKeyword(javaEEComponent, keyword){
+    const queryParams = `?javaEEComponent=${javaEEComponent}&keyword=${keyword}`;
+    this.http.get(
+      this.BACKEND_URL_CURRENT_ONTOLOGY_ASSOCIATE_KEYWORD + queryParams).pipe(map(response => ({
+      ontologyKnowledgeObjectArray: response
+    }))).subscribe(objectArr => {
+      let transformedOntologyKnowledgeData : OntologyKnowledge[] = [];
+      for(let i in objectArr.ontologyKnowledgeObjectArray){
+        let ontologyKnowledge : OntologyKnowledge = {
+          associatedKeyword: "",
+          description: "",
+          javaEEComponent: "",
+          layer:""
+        };
+        ontologyKnowledge.layer = objectArr.ontologyKnowledgeObjectArray[i].layer;
+        ontologyKnowledge.description = objectArr.ontologyKnowledgeObjectArray[i].description;
+        ontologyKnowledge.javaEEComponent = objectArr.ontologyKnowledgeObjectArray[i].javaEEComponent;
+        ontologyKnowledge.associatedKeyword = objectArr.ontologyKnowledgeObjectArray[i].associatedKeyword;
+        transformedOntologyKnowledgeData.push(ontologyKnowledge);
+
+      }
+
+      this.ontologyKnowledgeUpdated.next({ontologyKnowledge : transformedOntologyKnowledgeData });
+      });
   }
 
   requestMoveKeyword(keyword, oldLayer, newLayer){
@@ -181,5 +236,7 @@ export class LocalAnalysisService{
   }
 
 
-
+  getOntologyKnowledgeUpdateListener() {
+    return this.ontologyKnowledgeUpdated.asObservable();
+  }
 }
