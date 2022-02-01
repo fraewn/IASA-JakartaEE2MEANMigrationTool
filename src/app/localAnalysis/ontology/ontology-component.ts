@@ -4,7 +4,7 @@ import {Observable, Subscription} from 'rxjs';
 import {map, startWith} from 'rxjs/operators';
 import {LocalAnalysisService} from "../local-analysis.service";
 import {MatTableDataSource} from "@angular/material/table";
-import {MatSort, Sort} from "@angular/material/sort";
+import {MatSort, MatSortable, Sort} from "@angular/material/sort";
 import {LiveAnnouncer} from "@angular/cdk/a11y";
 import {SelectionModel} from "@angular/cdk/collections";
 import {SemanticKnowledge} from "../local-analysis.model";;
@@ -39,6 +39,7 @@ export class OntologyComponent implements AfterViewInit, OnInit {
   // table operations
   selection;
   clickedRows = new Set<OntologyKnowledge>();
+
   private semanticKnowledge : SemanticKnowledge[];
   private semanticKnowledgeSubscribed : Subscription;
 
@@ -48,7 +49,7 @@ export class OntologyComponent implements AfterViewInit, OnInit {
 
   // table
   dataSource = new MatTableDataSource<OntologyKnowledge>()
-  displayedColumns: string[] = ['javaEEComponent', 'description', 'associatedKeyword', 'editKeyword', 'save', 'layer'];
+  displayedColumns: string[] = ['layer', 'javaEEComponent', 'description', 'associatedKeyword', 'editKeyword', 'save' ];
   @ViewChild(MatSort) sort: MatSort;
   keywords : Keyword[] = [];
   myControl = new FormControl();
@@ -75,10 +76,7 @@ export class OntologyComponent implements AfterViewInit, OnInit {
 
   ngOnInit() {
 
-      this.localAnalysisService.requestCurrentOntologyKnowledge();
-      this.localAnalysisService.requestCurrentSemanticKnowledge();
-      this.updateOntologyKnowledge();
-      this.updateSemanticKnowledge();
+
   }
 
   updateOntologyKnowledge(){
@@ -131,20 +129,6 @@ export class OntologyComponent implements AfterViewInit, OnInit {
 
   setUpOnUpdate(){
     this.dataSource = new MatTableDataSource(this.ontologyKnowledge);
-  }
-
-  setUpSemanticKnowledgeOnUpdate(){
-    for(let i in this.semanticKnowledge){
-      for(let j in this.semanticKnowledge[i].keywords){
-        this.keywords.push({name: this.semanticKnowledge[i].keywords[j]})
-      }
-    }
-    this.options = this.keywords;
-
-  }
-
-  // set up table
-  ngAfterViewInit() {
     this.dataSource.sort = this.sort;
     const initialSelection = [];
     const allowMultiSelect = true;
@@ -154,6 +138,29 @@ export class OntologyComponent implements AfterViewInit, OnInit {
       map(value => (typeof value === 'string' ? value : value.name)),
       map(name => (name ? this._filter(name) : this.options.slice())),
     );
+    this.sort.sort(({ id: 'layer', start: 'asc'}) as MatSortable);
+    this.dataSource.sort = this.sort;
+  }
+
+  setUpSemanticKnowledgeOnUpdate(){
+    for(let i in this.semanticKnowledge){
+      for(let j in this.semanticKnowledge[i].keywords){
+        this.keywords.push({name: this.semanticKnowledge[i].keywords[j]})
+      }
+    }
+    this.options = this.keywords;
+    this.sort.sort(({ id: 'layer', start: 'desc'}) as MatSortable);
+    this.dataSource.sort = this.sort;
+
+  }
+
+  // set up table
+  ngAfterViewInit() {
+    this.localAnalysisService.requestCurrentOntologyKnowledge();
+    this.localAnalysisService.requestCurrentSemanticKnowledge();
+    this.updateOntologyKnowledge();
+    this.updateSemanticKnowledge();
+
   }
 
 

@@ -1,6 +1,6 @@
 import {LiveAnnouncer} from '@angular/cdk/a11y';
 import {AfterViewInit, Component, Input, OnDestroy, OnInit, ViewChild} from '@angular/core';
-import {MatSort, Sort} from '@angular/material/sort';
+import {MatSort, MatSortable, Sort} from '@angular/material/sort';
 import {MatTableDataSource} from '@angular/material/table';
 import {SelectionModel} from "@angular/cdk/collections";
 import {GlobalAnalysisService} from "../global-analysis.service";
@@ -39,6 +39,7 @@ export class AnalysisTableComponent implements AfterViewInit, OnInit, OnDestroy 
 
   setUpOnUpdate(){
     this.dataSource = new MatTableDataSource(this.nodeKnowledge);
+    this.sort.sort(({ id: 'name', start: 'asc'}) as MatSortable);
     this.dataSource.sort = this.sort;
     const initialSelection = [];
     const allowMultiSelect = true;
@@ -94,7 +95,6 @@ export class AnalysisTableComponent implements AfterViewInit, OnInit, OnDestroy 
           console.log("Default analysis is executed, since no data was there yet")
         }
 
-        console.log(this.nodeKnowledge);
         this.setUpOnUpdate();
 
       });
