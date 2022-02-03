@@ -11,6 +11,7 @@ import {AnalysisTableComponent} from "./globalAnalysis/analysisTable/analysis-ta
 import {SemanticAnalysisComponent} from "./localAnalysis/semanticAnalysis/semantic-analysis.component";
 import {EditKeywordsComponent} from "./localAnalysis/keywords/edit-keywords.component";
 import {OntologyComponent} from "./localAnalysis/ontology/ontology-component";
+import {MPSComponent} from "./dashboard/migrationprocessstep/mps.component";
 
 const routes: Routes = [
   { path: '', component: ReportListComponent },
@@ -18,6 +19,7 @@ const routes: Routes = [
   { path: 'globalAnalysis', component: AnalysisTableComponent},
   { path: 'localAnalysis', component: SemanticAnalysisComponent},
   { path: 'editKeywords', component: EditKeywordsComponent},
+  { path: 'dashboard', component: MPSComponent},
   { path: 'semanticAnalysis/ontology', component: OntologyComponent},
   { path: 'failure', component: FailureComponent},
   { path: 'report/create', component: ReportCreateComponent, canActivate: [AuthGuard]},

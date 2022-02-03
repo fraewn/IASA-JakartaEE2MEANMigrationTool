@@ -26,6 +26,9 @@ th {
   background-color: #FFFFB5
 }
 
+.highlight_red {
+  background-color: #FFBEBC
+}
 .mat-column-select {
   overflow: initial;
 }

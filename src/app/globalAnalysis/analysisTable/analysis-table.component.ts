@@ -7,6 +7,10 @@ import {GlobalAnalysisService} from "../global-analysis.service";
 import {Subscription} from "rxjs";
 import {NodeKnowledge} from "../global-analysis.model";
 
+export interface JavaEEComponents{
+  name: string
+}
+
 @Component({
   selector: 'analysis-table',
   templateUrl: 'analysis-table.component.html',
@@ -14,14 +18,18 @@ import {NodeKnowledge} from "../global-analysis.model";
 })
 export class AnalysisTableComponent implements AfterViewInit, OnInit, OnDestroy {
   globalAnalysisService : GlobalAnalysisService;
-  meanModuleTypeOptions : string[]
+  meanModuleTypeOptions : string[];
+  javaEEComponentOptions : string[] = [];
+  selectedItems = [];
 
   @Input()
   nodeKnowledge : NodeKnowledge[] = [];
+  javaEEComponents : JavaEEComponents[] = [];
   private nodeKnowledgeSubscribed : Subscription;
+  private javaEEComponentsSubscribed : Subscription;
 
   displayedColumns: string[] = ['name', 'label', 'triangleScore', 'triangleCoefficientScore', 'betweennessCentralityScore',
-    'closenessCentralityScore', 'pageRankScore', 'representedMeanModuleType', 'save'];
+    'closenessCentralityScore', 'pageRankScore', 'calculatedInterpretation', 'javaEEComponentOptions'];
   dataSource = new MatTableDataSource<NodeKnowledge>()
   selection;
   clickedRows = new Set<NodeKnowledge>();
@@ -37,6 +45,15 @@ export class AnalysisTableComponent implements AfterViewInit, OnInit, OnDestroy 
 
   }
 
+  remove(interpretation){
+    console.log(interpretation);
+  }
+
+  printItem(name, option){
+    this.globalAnalysisService.requestUpdateJavaEEComponent(name, option);
+    this.updateNodeKnowledgeData();
+  }
+
   setUpOnUpdate(){
     this.dataSource = new MatTableDataSource(this.nodeKnowledge);
     this.sort.sort(({ id: 'name', start: 'asc'}) as MatSortable);
@@ -45,9 +62,25 @@ export class AnalysisTableComponent implements AfterViewInit, OnInit, OnDestroy 
     const allowMultiSelect = true;
     this.selection = new SelectionModel<NodeKnowledge>(allowMultiSelect, initialSelection);
     this.meanModuleTypeOptions = ["cross section", "functional", "wrapper"];
+    this.globalAnalysisService.getAllJavaEEComponents();
+
   }
 
-  update(){
+  updateJavaEEComponents(){
+    this.javaEEComponentsSubscribed = this.globalAnalysisService.getJavaEEComponentsUpdateListener().subscribe(subject =>{
+      this.javaEEComponents = [];
+      for(let i in subject.javaEEComponents){
+        let javaEEComponent : JavaEEComponents = {name:""};
+        javaEEComponent.name = subject.javaEEComponents[i].name;
+        this.javaEEComponents.push(javaEEComponent);
+      }
+      for(let i in this.javaEEComponents){
+        this.javaEEComponentOptions.push(this.javaEEComponents[i].name);
+      }
+    });
+  }
+
+  updateNodeKnowledgeData(){
     // fill up with latest data
     this.nodeKnowledgeSubscribed = this.globalAnalysisService.getNodeKnowledgeUpdateListener()
       .subscribe(subject => {
@@ -87,6 +120,7 @@ export class AnalysisTableComponent implements AfterViewInit, OnInit, OnDestroy 
           nodeKnowledgeInstance.review = subject.nodeKnowledge[i].review;
           nodeKnowledgeInstance.representedMeanModuleType = subject.nodeKnowledge[i].representedMeanModuleType;
           nodeKnowledgeInstance.associatedMeanModuleType = subject.nodeKnowledge[i].associatedMeanModuleType;
+
           this.nodeKnowledge.push(nodeKnowledgeInstance);
         }
         // no semantic analysis was ever executed before, so there was not data received from backend
@@ -94,9 +128,7 @@ export class AnalysisTableComponent implements AfterViewInit, OnInit, OnDestroy 
           this.requestDefaultAnalysis();
           console.log("Default analysis is executed, since no data was there yet")
         }
-
         this.setUpOnUpdate();
-
       });
   }
 
@@ -122,7 +154,8 @@ export class AnalysisTableComponent implements AfterViewInit, OnInit, OnDestroy 
 
   ngAfterViewInit() {
     this.globalAnalysisService.requestCurrentGlobalKnowledge();
-    this.update();
+    this.updateNodeKnowledgeData();
+    this.updateJavaEEComponents();
 
   }
 

@@ -16,6 +16,7 @@ import {FormsModule} from "@angular/forms";
 import {AnalysisModule} from "./analysis/analysis.module";
 import {GlobalAnalysisModule} from "./globalAnalysis/global-analysis.module";
 import {LocalAnalysisModule} from "./localAnalysis/local-analysis.module";
+import {DashboardModule} from "./dashboard/dashboard.module";
 
 // defines the features our angular application has
 // angular thinks in applications and applications are split in modules
@@ -43,7 +44,8 @@ import {LocalAnalysisModule} from "./localAnalysis/local-analysis.module";
     FormsModule,
     AnalysisModule,
     GlobalAnalysisModule,
-    LocalAnalysisModule
+    LocalAnalysisModule,
+    DashboardModule
   ],
   providers: [{provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true},
     {provide: HTTP_INTERCEPTORS, useClass: ErrorInterceptor, multi: true}],
