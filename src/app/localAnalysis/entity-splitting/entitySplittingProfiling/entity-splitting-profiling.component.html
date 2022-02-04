@@ -1,92 +1,94 @@
+<div id="wrapper">
+  <div class="example-container">
+    <h2>JavaEEComponents</h2>
+    <div
+      id="javaEEComponents"
+      cdkDropList
+      #javaEEComponentsList="cdkDropList"
+      [cdkDropListData]="javaEEComponents"
+      [cdkDropListConnectedTo]="[filteredList, allowedList]"
+      class="example-list"
+      (cdkDropListDropped)="drop($event)">
+      <div class="example-box" *ngFor="let item of javaEEComponents" cdkDrag>{{item}}</div>
+    </div>
+  </div>
 
-<div class="example-container">
-  <h2>JavaEEComponents</h2>
-  <div
-    id="javaEEComponents"
-    cdkDropList
-    #javaEEComponentsList="cdkDropList"
-    [cdkDropListData]="javaEEComponents"
-    [cdkDropListConnectedTo]="[filteredList, allowedList]"
+  <div class="example-container">
+    <h2>Components to keep in entity module</h2>
+    <div
+      id="allowedJavaEEComponents"
+      cdkDropList
+      #allowedList="cdkDropList"
+      [cdkDropListData]="allowedJavaEEComponents"
+      [cdkDropListConnectedTo]="[centralcomponent, subscomponent, javaEEComponentsList]"
+      class="example-list"
+      (cdkDropListDropped)="drop($event)">
+      <div class="example-box" *ngFor="let item of allowedJavaEEComponents" cdkDrag>{{item}}</div>
+    </div>
+  </div>
 
-    class="example-list"
-    (cdkDropListDropped)="drop($event)">
-    <div class="example-box" *ngFor="let item of javaEEComponents" cdkDrag>{{item}}</div>
+  <div class="example-container">
+    <h2>Components to filter out of entity module</h2>
+    <div
+      id="filteredJavaEEComponents"
+      cdkDropList
+      #filteredList="cdkDropList"
+      [cdkDropListData]="filteredJavaEEComponents"
+      [cdkDropListConnectedTo]="[centralcomponent, javaEEComponentsList]"
+      class="example-list"
+      (cdkDropListDropped)="drop($event)">
+      <div class="example-box" *ngFor="let item of filteredJavaEEComponents" cdkDrag>{{item}}</div>
+    </div>
+  </div>
+
+  <div id="component_wrapper">
+    <div class="example-container">
+      <h2>Central component</h2>
+      <div
+        id="centralJavaEEComponent"
+        cdkDropList
+        #centralcomponent="cdkDropList"
+        [cdkDropListData]="centralJavaEEComponent"
+        [cdkDropListConnectedTo]="[allowedList]"
+        class="example-list"
+        (cdkDropListDropped)="drop($event)">
+        <div class="example-box" *ngFor="let item of centralJavaEEComponent" cdkDrag>{{item}}</div>
+      </div>
+    </div>
+
+    <div class="example-container">
+      <h2>Substitutional central component</h2>
+      <div
+        id="substitutionalCentralJavaEEComponent"
+        cdkDropList
+        #subscomponent="cdkDropList"
+        [cdkDropListData]="substitutionalJavaEEComponent"
+        [cdkDropListConnectedTo]="[allowedList]"
+        class="example-list"
+        (cdkDropListDropped)="drop($event)">
+        <div class="example-box" *ngFor="let item of substitutionalJavaEEComponent" cdkDrag>{{item}}</div>
+      </div>
+    </div>
+
+    <div>
+    <h2>Search Depth</h2>
+    <mat-form-field appearance="fill">
+      <mat-label>Search Depth</mat-label>
+      <mat-select>
+        <mat-option *ngFor="let searchExtent of searchExtents" [value]="searchExtent" (click)="setSearchExtent(searchExtent)">
+          {{searchExtent}}
+        </mat-option >
+      </mat-select>
+    </mat-form-field>
+    </div>
+  </div>
+
+  <div id="button_wrapper">
+    <div>
+      <button class="buttons" mat-raised-button color="primary" (click)="save()" >Save <mat-icon>save_alt</mat-icon></button>
+    </div>
+    <div>
+      <button class="buttons" mat-raised-button color="primary" (click)="execute()">Execute Entity Splitting Strategy  <mat-icon>gavel</mat-icon> </button>
+    </div>
   </div>
 </div>
-
-<div class="example-container">
-  <h2>Components to keep in entity module</h2>
-  <div
-    id="allowedJavaEEComponents"
-    cdkDropList
-    #allowedList="cdkDropList"
-    [cdkDropListData]="allowedJavaEEComponents"
-    [cdkDropListConnectedTo]="[centralcomponent, subscomponent, javaEEComponentsList]"
-    class="example-list"
-    (cdkDropListDropped)="drop($event)">
-    <div class="example-box" *ngFor="let item of allowedJavaEEComponents" cdkDrag>{{item}}</div>
-  </div>
-</div>
-
-<div class="example-container">
-  <h2>Components to filter out of entity module</h2>
-  <div
-    id="filteredJavaEEComponents"
-    cdkDropList
-    #filteredList="cdkDropList"
-    [cdkDropListData]="filteredJavaEEComponents"
-    [cdkDropListConnectedTo]="[centralcomponent, javaEEComponentsList]"
-    class="example-list"
-    (cdkDropListDropped)="drop($event)">
-    <div class="example-box" *ngFor="let item of filteredJavaEEComponents" cdkDrag>{{item}}</div>
-  </div>
-</div>
-
-<div class="example-container">
-  <h2>Central component</h2>
-  <div
-    id="centralJavaEEComponent"
-    cdkDropList
-    #centralcomponent="cdkDropList"
-    [cdkDropListData]="centralJavaEEComponent"
-    [cdkDropListConnectedTo]="[allowedList]"
-    class="example-list"
-    (cdkDropListDropped)="drop($event)">
-    <div class="example-box" *ngFor="let item of centralJavaEEComponent" cdkDrag>{{item}}</div>
-  </div>
-</div>
-
-<div>
-<h2>Search Depth</h2>
-<mat-form-field appearance="fill">
-  <mat-label>Search Depth</mat-label>
-  <mat-select>
-    <mat-option *ngFor="let searchExtent of searchExtents" [value]="searchExtent" (click)="setSearchExtent(searchExtent)">
-      {{searchExtent}}
-    </mat-option >
-  </mat-select>
-</mat-form-field>
-</div>
-
-<div class="example-container">
-  <h2>Substitutional central component</h2>
-  <div
-    id="substitutionalCentralJavaEEComponent"
-    cdkDropList
-    #subscomponent="cdkDropList"
-    [cdkDropListData]="substitutionalJavaEEComponent"
-    [cdkDropListConnectedTo]="[allowedList]"
-    class="example-list"
-    (cdkDropListDropped)="drop($event)">
-    <div class="example-box" *ngFor="let item of substitutionalJavaEEComponent" cdkDrag>{{item}}</div>
-  </div>
-</div>
-
-<div>
-<button mat-raised-button color="primary" (click)="save()">Save</button>
-</div>
-
-<div>
-  <button mat-raised-button color="primary" (click)="execute()">Execute Entity Splitting Strategy</button>
-</div>
-

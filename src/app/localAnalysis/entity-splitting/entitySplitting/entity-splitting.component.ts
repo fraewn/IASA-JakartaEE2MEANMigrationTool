@@ -14,11 +14,12 @@ import {EntitySplittingService} from "../entity-splitting.service";
   styleUrls: ['entity-splitting.component.css'],
 })
 export class EntitySplittingComponent implements OnInit, OnDestroy{
+  // chips
   addOnBlur = true;
   readonly separatorKeysCodes = [ENTER, COMMA] as const;
-
   entitySplittingService : EntitySplittingService;
 
+  // model
   splittingResults : SplittingResult[] = [];
   private splittingResultSubscribed : Subscription;
 

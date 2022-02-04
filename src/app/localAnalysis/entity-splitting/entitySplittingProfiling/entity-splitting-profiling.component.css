@@ -4,7 +4,25 @@
   margin: 0 25px 25px 0;
   display: inline-block;
   vertical-align: top;
+  float: left;
 }
+
+#wrapper{
+  width: 90em;
+  overflow: hidden; /* will contain if #first is longer than #second */
+}
+
+#component_wrapper{
+  width: 15em;
+  float: left;
+}
+
+#button_wrapper{
+  margin: 1em;
+  padding: 0.9em;
+}
+
+
 
 .example-list {
   border: solid 1px #ccc;
@@ -13,6 +31,10 @@
   border-radius: 4px;
   overflow: hidden;
   display: block;
+}
+
+.buttons{
+  margin: 1em;
 }
 
 .example-box {
