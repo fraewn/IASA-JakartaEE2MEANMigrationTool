@@ -6,6 +6,7 @@ import {LocalAnalysisService} from "../../local-analysis.service";
 import {EntitySplittingProfileModel} from "../entity-splitting-profile.model";
 import {SemanticKnowledge} from "../../local-analysis.model";
 import {EntitySplittingService} from "../entity-splitting.service";
+import {SplittingResult} from "../entity-splitting.model";
 
 /**
  * @title Drag&Drop connected sorting
@@ -18,7 +19,6 @@ import {EntitySplittingService} from "../entity-splitting.service";
 export class EntitySplittingProfilingComponent implements OnInit, OnDestroy {
   localAnalysisService : LocalAnalysisService;
   entitySplittingService : EntitySplittingService;
-  private entitySplittingProfileSubscribed : Subscription;
 
   javaEEComponents = [];
   allowedJavaEEComponents = [];
@@ -26,19 +26,17 @@ export class EntitySplittingProfilingComponent implements OnInit, OnDestroy {
   centralJavaEEComponent = [];
   substitutionalJavaEEComponent = [];
   searchExtent = 0;
-
   searchExtents : number[] = [1,2,3,4];
-
-  entitySplittingProfile : EntitySplittingProfileModel[] = [];
-
-
-
-  todo = ['Get to work', 'Pick up groceries', 'Go home', 'Fall asleep'];
 
   done = ['Get up', 'Brush teeth', 'Take a shower', 'Check e-mail', 'Walk dog'];
 
   ontologyKnowledge : OntologyKnowledge[] = [];
   private ontologyKnowledgeSubscribed : Subscription;
+
+  entitySplittingProfile : EntitySplittingProfileModel[] = [];
+  private entitySplittingProfileSubscribed : Subscription;
+
+
 
   constructor(localAnalysisService : LocalAnalysisService, entitySplittingService : EntitySplittingService) {
     this.localAnalysisService = localAnalysisService;
@@ -78,6 +76,16 @@ export class EntitySplittingProfilingComponent implements OnInit, OnDestroy {
 
   moveKeyword(javaEEComponent, newList){
     console.log(javaEEComponent); console.log(newList);
+  }
+
+  execute(){
+    this.entitySplittingService.navigateToEntitySplittingResults();
+  }
+
+
+
+  setUpOnSplittingResultUpdate(){
+
   }
 
   setUpOnOntologyUpdate(){

@@ -16,13 +16,17 @@ import {DragDropModule} from "@angular/cdk/drag-drop";
 import {MatAutocomplete, MatAutocompleteModule} from "@angular/material/autocomplete";
 import {OntologyComponent} from "./ontology/ontology-component";
 import {EntitySplittingProfilingComponent} from "./entity-splitting/entitySplittingProfiling/entity-splitting-profiling.component";
+import {EntitySplittingComponent} from "./entity-splitting/entitySplitting/entity-splitting.component";
+import {MatIconModule} from "@angular/material/icon";
+import {MatChipsModule} from "@angular/material/chips";
 
 @NgModule({
   declarations: [
     SemanticAnalysisComponent,
     EditKeywordsComponent,
     OntologyComponent,
-    EntitySplittingProfilingComponent
+    EntitySplittingProfilingComponent,
+    EntitySplittingComponent
   ],
   imports: [
     // this one we need to use ngModule
@@ -39,10 +43,9 @@ import {EntitySplittingProfilingComponent} from "./entity-splitting/entitySplitt
     MatSelectModule,
     DragDropModule,
     MatAutocompleteModule,
-    ReactiveFormsModule
-
-
-
+    ReactiveFormsModule,
+    MatIconModule,
+    MatChipsModule
   ]
 
 })

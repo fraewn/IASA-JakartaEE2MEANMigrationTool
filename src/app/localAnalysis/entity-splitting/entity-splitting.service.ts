@@ -5,18 +5,47 @@ import {environment} from "../../../environments/environment";
 import {map} from "rxjs/operators";
 import {HttpClient, HttpHeaders, HttpParams} from "@angular/common/http";
 import {Router} from "@angular/router";
+import {SplittingResult} from "./entity-splitting.model";
 
 @Injectable({providedIn: 'root'})
 export class EntitySplittingService{
   private entitySplittingProfileUpdated = new Subject<{entitySplittingProfile : EntitySplittingProfileModel[]}>();
+  private splittingResultUpdated = new Subject<{splittingResult : SplittingResult[]}>()
 
   private BACKEND_URL_CURRENT_PROFILE = environment.backend_splitting + "/profile/current";
   private BACKEND_URL_INSERT_PROFILE = environment.backend_splitting + "/profile/update"
-
+  private BACKEND_URL_EXECUTE_ENTITY_SPLITTING  = environment.backend_splitting + "/execute"
   constructor(private http: HttpClient, private router: Router) {}
 
   getEntitySplittingProfileUpdateListener(){
     return this.entitySplittingProfileUpdated.asObservable();
+  }
+
+  getSplittingResultUpdateListener(){
+    return this.splittingResultUpdated.asObservable();
+  }
+
+  navigateToEntitySplittingResults(){
+    this.router.navigate(["/splitting/entity/result"]);
+  }
+
+  requestEntitySplittingResult(){
+    this.http.get(
+      this.BACKEND_URL_EXECUTE_ENTITY_SPLITTING).pipe(map(response => ({
+      entitySplittingProfileArray: response
+    }))).subscribe(objectArr => {
+      let transformedSplittingResult : SplittingResult[] = [];
+      for(let i in objectArr.entitySplittingProfileArray){
+        let splittingResult : SplittingResult = {
+          base: "", moduleCluster: [], splittingStrategy: ""
+        }
+        splittingResult.base = objectArr.entitySplittingProfileArray[i].base
+        splittingResult.moduleCluster= objectArr.entitySplittingProfileArray[i].moduleCluster
+        splittingResult.splittingStrategy = objectArr.entitySplittingProfileArray[i].splittingStrategy
+        transformedSplittingResult.push(splittingResult);
+      }
+      this.splittingResultUpdated.next({splittingResult : transformedSplittingResult });
+    });
   }
 
   requestCurrentEntitySplittingProfile(){
