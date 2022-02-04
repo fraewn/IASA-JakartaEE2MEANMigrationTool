@@ -15,12 +15,14 @@ import {EditKeywordsComponent} from "./keywords/edit-keywords.component";
 import {DragDropModule} from "@angular/cdk/drag-drop";
 import {MatAutocomplete, MatAutocompleteModule} from "@angular/material/autocomplete";
 import {OntologyComponent} from "./ontology/ontology-component";
+import {EntitySplittingProfilingComponent} from "./entity-splitting/entitySplittingProfiling/entity-splitting-profiling.component";
 
 @NgModule({
   declarations: [
     SemanticAnalysisComponent,
     EditKeywordsComponent,
-    OntologyComponent
+    OntologyComponent,
+    EntitySplittingProfilingComponent
   ],
   imports: [
     // this one we need to use ngModule

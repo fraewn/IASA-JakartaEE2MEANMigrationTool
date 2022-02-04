@@ -51,6 +51,8 @@ export class SemanticAnalysisComponent implements AfterViewInit, OnInit, OnDestr
     this.localAnalysisService = localAnalysisService;
   }
 
+
+
   update(){
     // fill up with latest data
     this.semanticKnowledgeSubscribed = this.localAnalysisService.getSemanticKnowledgeUpdateListener()

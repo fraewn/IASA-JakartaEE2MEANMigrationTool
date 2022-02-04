@@ -12,6 +12,7 @@ import {SemanticAnalysisComponent} from "./localAnalysis/semanticAnalysis/semant
 import {EditKeywordsComponent} from "./localAnalysis/keywords/edit-keywords.component";
 import {OntologyComponent} from "./localAnalysis/ontology/ontology-component";
 import {MPSComponent} from "./dashboard/migrationprocessstep/mps.component";
+import {EntitySplittingProfilingComponent} from "./localAnalysis/entity-splitting/entitySplittingProfiling/entity-splitting-profiling.component";
 
 const routes: Routes = [
   { path: '', component: ReportListComponent },
@@ -20,6 +21,7 @@ const routes: Routes = [
   { path: 'localAnalysis', component: SemanticAnalysisComponent},
   { path: 'editKeywords', component: EditKeywordsComponent},
   { path: 'dashboard', component: MPSComponent},
+  { path: 'splitting/entity/profiling', component: EntitySplittingProfilingComponent},
   { path: 'semanticAnalysis/ontology', component: OntologyComponent},
   { path: 'failure', component: FailureComponent},
   { path: 'report/create', component: ReportCreateComponent, canActivate: [AuthGuard]},

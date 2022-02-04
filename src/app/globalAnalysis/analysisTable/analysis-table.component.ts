@@ -45,11 +45,11 @@ export class AnalysisTableComponent implements AfterViewInit, OnInit, OnDestroy 
 
   }
 
-  remove(interpretation){
-    console.log(interpretation);
+  removeJavaEEComponent(element, javaEEComponent){
+    this.globalAnalysisService.requestDeleteJavaEEComponent(element.name, javaEEComponent);
   }
 
-  printItem(name, option){
+  addJavaEEComponent(name, option){
     this.globalAnalysisService.requestUpdateJavaEEComponent(name, option);
     this.updateNodeKnowledgeData();
   }
@@ -65,6 +65,7 @@ export class AnalysisTableComponent implements AfterViewInit, OnInit, OnDestroy 
     this.globalAnalysisService.getAllJavaEEComponents();
 
   }
+
 
   updateJavaEEComponents(){
     this.javaEEComponentsSubscribed = this.globalAnalysisService.getJavaEEComponentsUpdateListener().subscribe(subject =>{

@@ -35,20 +35,20 @@ export class LocalAnalysisService{
   requestCurrentOntologyKnowledge(){
     this.http.get(
       this.BACKEND_URL_CURRENT_ONTOLOGY).pipe(map(response => ({
-      ontologyKnowledgeObjectArray: response
+      entitySplittingProfileArray: response
     }))).subscribe(objectArr => {
       let transformedOntologyKnowledgeData : OntologyKnowledge[] = [];
-      for(let i in objectArr.ontologyKnowledgeObjectArray){
+      for(let i in objectArr.entitySplittingProfileArray){
         let ontologyKnowledge : OntologyKnowledge = {
           associatedKeyword: "",
           description: "",
           javaEEComponent: "",
           layer:""
         };
-        ontologyKnowledge.layer = objectArr.ontologyKnowledgeObjectArray[i].layer;
-        ontologyKnowledge.description = objectArr.ontologyKnowledgeObjectArray[i].description;
-        ontologyKnowledge.javaEEComponent = objectArr.ontologyKnowledgeObjectArray[i].javaEEComponent;
-        ontologyKnowledge.associatedKeyword = objectArr.ontologyKnowledgeObjectArray[i].associatedKeyword;
+        ontologyKnowledge.layer = objectArr.entitySplittingProfileArray[i].layer;
+        ontologyKnowledge.description = objectArr.entitySplittingProfileArray[i].description;
+        ontologyKnowledge.javaEEComponent = objectArr.entitySplittingProfileArray[i].javaEEComponent;
+        ontologyKnowledge.associatedKeyword = objectArr.entitySplittingProfileArray[i].associatedKeyword;
         transformedOntologyKnowledgeData.push(ontologyKnowledge);
       }
       this.ontologyKnowledgeUpdated.next({ontologyKnowledge : transformedOntologyKnowledgeData });
@@ -59,20 +59,20 @@ export class LocalAnalysisService{
     const queryParams = `?javaEEComponent=${javaEEComponent}&keyword=${keyword}`;
     this.http.get(
       this.BACKEND_URL_CURRENT_ONTOLOGY_ASSOCIATE_KEYWORD + queryParams).pipe(map(response => ({
-      ontologyKnowledgeObjectArray: response
+      entitySplittingProfileArray: response
     }))).subscribe(objectArr => {
       let transformedOntologyKnowledgeData : OntologyKnowledge[] = [];
-      for(let i in objectArr.ontologyKnowledgeObjectArray){
+      for(let i in objectArr.entitySplittingProfileArray){
         let ontologyKnowledge : OntologyKnowledge = {
           associatedKeyword: "",
           description: "",
           javaEEComponent: "",
           layer:""
         };
-        ontologyKnowledge.layer = objectArr.ontologyKnowledgeObjectArray[i].layer;
-        ontologyKnowledge.description = objectArr.ontologyKnowledgeObjectArray[i].description;
-        ontologyKnowledge.javaEEComponent = objectArr.ontologyKnowledgeObjectArray[i].javaEEComponent;
-        ontologyKnowledge.associatedKeyword = objectArr.ontologyKnowledgeObjectArray[i].associatedKeyword;
+        ontologyKnowledge.layer = objectArr.entitySplittingProfileArray[i].layer;
+        ontologyKnowledge.description = objectArr.entitySplittingProfileArray[i].description;
+        ontologyKnowledge.javaEEComponent = objectArr.entitySplittingProfileArray[i].javaEEComponent;
+        ontologyKnowledge.associatedKeyword = objectArr.entitySplittingProfileArray[i].associatedKeyword;
         transformedOntologyKnowledgeData.push(ontologyKnowledge);
 
       }
