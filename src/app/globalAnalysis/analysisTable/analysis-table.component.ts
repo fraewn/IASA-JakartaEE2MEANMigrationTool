@@ -126,13 +126,20 @@ export class AnalysisTableComponent implements AfterViewInit, OnInit, OnDestroy 
         }
         // no semantic analysis was ever executed before, so there was not data received from backend
         if(this.nodeKnowledge.length==0){
-          this.requestDefaultAnalysis();
+          this.requestAnalysis();
           console.log("Default analysis is executed, since no data was there yet")
         }
         this.setUpOnUpdate();
       });
   }
 
+  navigateToKeywordView(){
+    this.globalAnalysisService.navigateToKeywordView();
+  }
+
+  navigateToEditOntologyView(){
+    this.globalAnalysisService.navigateToEditOntologyView();
+  }
 
   // method by: https://expertcodeblog.wordpress.com/2018/02/12/typescript-javascript-round-number-by-decimal-pecision/
   public precisionRound(number: number, precision: number)
@@ -147,8 +154,10 @@ export class AnalysisTableComponent implements AfterViewInit, OnInit, OnDestroy 
         "e-" + precision);
   }
 
-  requestDefaultAnalysis(){
-
+  requestAnalysis(){
+    this.globalAnalysisService.requestExecuteGlobalAnalysis();
+    this.updateNodeKnowledgeData();
+    this.updateJavaEEComponents();
   }
 
 
@@ -157,7 +166,6 @@ export class AnalysisTableComponent implements AfterViewInit, OnInit, OnDestroy 
     this.globalAnalysisService.requestCurrentGlobalKnowledge();
     this.updateNodeKnowledgeData();
     this.updateJavaEEComponents();
-
   }
 
   onSaveAssignment(element, myReview){

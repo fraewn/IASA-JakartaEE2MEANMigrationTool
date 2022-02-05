@@ -19,7 +19,7 @@ const routes: Routes = [
   { path: '', component: ReportListComponent },
   { path: 'company', component: CompanyListComponent},
   { path: 'globalAnalysis', component: AnalysisTableComponent},
-  { path: 'localAnalysis', component: SemanticAnalysisComponent},
+  { path: 'semanticAnalysis', component: SemanticAnalysisComponent},
   { path: 'editKeywords', component: EditKeywordsComponent},
   { path: 'dashboard', component: MPSComponent},
   { path: 'splitting/entity/profiling', component: EntitySplittingProfilingComponent},

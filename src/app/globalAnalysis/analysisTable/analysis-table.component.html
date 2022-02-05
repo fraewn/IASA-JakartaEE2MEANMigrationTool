@@ -1,5 +1,14 @@
 <mat-tab-group>
   <mat-tab label="Overview">
+    <p>
+      <mat-toolbar>
+        <span>
+          <button mat-raised-button color="primary" (click)="navigateToKeywordView()">Edit Keywords</button>
+          <button mat-raised-button color="primary" (click)="navigateToEditOntologyView()">Edit Ontology Knowledge</button>
+          <button mat-raised-button color="primary" (click)="requestAnalysis()">Execute Analysis</button>
+           </span>
+      </mat-toolbar>
+    </p>
 <mat-table #table [dataSource]="dataSource" matSort (matSortChange)="announceSortChange($event)"
            class="mat-elevation-z8">
 

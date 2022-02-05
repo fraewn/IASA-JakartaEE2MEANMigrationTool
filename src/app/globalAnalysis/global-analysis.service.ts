@@ -6,6 +6,7 @@ import {map} from "rxjs/operators";
 import {Subject} from "rxjs";
 import {NodeKnowledge} from "./global-analysis.model";
 import {JavaEEComponents} from "./analysisTable/analysis-table.component";
+import {mainDiagnosticsForTest} from "@angular/compiler-cli/src/main";
 
 @Injectable({providedIn: 'root'})
 export class GlobalAnalysisService {
@@ -19,6 +20,14 @@ export class GlobalAnalysisService {
   private BACKEND_URL_REQUEST_DELETE_JAVAEECOMPONENT = environment.backend + "/nodeKnowledge/deleteJavaEEComponent"
 
   constructor(private http: HttpClient, private router: Router) {
+  }
+
+  navigateToKeywordView(){
+    this.router.navigate(["/editKeywords"]);
+  }
+
+  navigateToEditOntologyView(){
+    this.router.navigate(["/semanticAnalysis/ontology"]);
   }
 
   requestDeleteJavaEEComponent(name, javaEEComponent){
@@ -167,6 +176,12 @@ export class GlobalAnalysisService {
     });
 }
 
+  requestExecuteGlobalAnalysis(){
+    this.http.get(this.BACKEND_URL_REQUEST_GLOBAL_ANALYSIS).subscribe(res => {
+      console.log(res);
+    });
+  }
+
   getNodeKnowledgeUpdateListener(){
     return this.nodeKnowledgeUpdated.asObservable();
   }
@@ -176,7 +191,6 @@ export class GlobalAnalysisService {
       this.BACKEND_URL_REQUEST_JAVAEECOMPONENTS).pipe(map(response => ({
       javaEEComponent: response
     }))).subscribe(javaEEComponentsList => {
-      console.log(javaEEComponentsList);
       let list : JavaEEComponents[] = [];
       for(let i in javaEEComponentsList){
         for(let j in javaEEComponentsList[i]){

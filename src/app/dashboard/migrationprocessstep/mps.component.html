@@ -3,6 +3,7 @@
     <span>Migrationsprozess JavaEE -> MEAN Stack </span>
     <span class="example-spacer"></span>
   </mat-toolbar>
+  <mat-progress-bar mode="determinate" value="20" color="accent" ></mat-progress-bar>
 </p>
 <p>
   <mat-toolbar>
@@ -11,10 +12,12 @@
   <mat-progress-bar mode="determinate" value="100"></mat-progress-bar>
 </p>
 
-
 <p>
   <mat-toolbar>
-    <span>Semantic Analysis (optional)</span>
+    <span>
+      <a routerLink="/semanticAnalysis">Improve Results with a Semantic Analysis (optional)</a>
+      <a routerLink="/semanticAnalysis/ontology">Improve Results with Ontology Knowledge (optional)</a>
+    </span>
 
   </mat-toolbar>
   <mat-progress-bar mode="determinate" value="40"></mat-progress-bar>
@@ -24,22 +27,22 @@
 
 <p>
   <mat-toolbar>
-    <span>Global Analysis</span>
+    <span><a routerLink="/globalAnalysis">Get an Overview with the Global Analysis</a></span>
   </mat-toolbar>
   <mat-progress-bar mode="determinate" value="40"></mat-progress-bar>
 </p>
 
 <p>
   <mat-toolbar>
-    <span>Local Analysis</span>
-    <mat-list>
-      <mat-list-item>
-        <span>Entity Splitting Strategy</span>
-      </mat-list-item>
-      <mat-list-item> Salt </mat-list-item>
-      <mat-list-item> Paprika </mat-list-item>
-    </mat-list>
+    <span>
+      <a routerLink="/splitting/entity/result">Identify Entity Based Modules</a>
+      <a routerLink="/splitting/entity/profiling">Customize Strategy Profile</a>
+    </span>
+    <span>
 
+    </span>
   </mat-toolbar>
   <mat-progress-bar mode="determinate" value="40"></mat-progress-bar>
 </p>
+
+
