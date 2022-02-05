@@ -13,8 +13,11 @@ export class EntitySplittingService{
   private splittingResultUpdated = new Subject<{splittingResult : SplittingResult[]}>()
 
   private BACKEND_URL_CURRENT_PROFILE = environment.backend_splitting + "/profile/current";
-  private BACKEND_URL_INSERT_PROFILE = environment.backend_splitting + "/profile/update"
-  private BACKEND_URL_EXECUTE_ENTITY_SPLITTING  = environment.backend_splitting + "/execute"
+  private BACKEND_URL_INSERT_PROFILE = environment.backend_splitting + "/profile/update";
+  private BACKEND_URL_EXECUTE_ENTITY_SPLITTING  = environment.backend_splitting + "/execute";
+  private BACKEND_URL_ENTITY_SPLITTING_RESULT  = environment.backend_splitting + "/execute/result";
+  private BACKEND_URL_DELETE_COMPONENT_IN_MODULE  = environment.backend_splitting + "/execute/result/delete/component";
+
   constructor(private http: HttpClient, private router: Router) {}
 
   getEntitySplittingProfileUpdateListener(){
@@ -26,10 +29,50 @@ export class EntitySplittingService{
   }
 
   navigateToEntitySplittingResults(){
+    this.requestExecuteEntitySplittingStrategy();
     this.router.navigate(["/splitting/entity/result"]);
   }
 
-  requestEntitySplittingResult(){
+  requestDeleteComponentInModule(base, component){
+    const queryParams = `?base=${base}&component=${component}`;
+    this.http.get(
+      this.BACKEND_URL_DELETE_COMPONENT_IN_MODULE + queryParams).pipe(map(response => ({
+      entitySplittingProfileArray: response
+    }))).subscribe(objectArr => {
+      let transformedSplittingResult : SplittingResult[] = [];
+      for(let i in objectArr.entitySplittingProfileArray){
+        let splittingResult : SplittingResult = {
+          base: "", moduleCluster: [], splittingStrategy: ""
+        }
+        splittingResult.base = objectArr.entitySplittingProfileArray[i].base
+        splittingResult.moduleCluster= objectArr.entitySplittingProfileArray[i].moduleCluster
+        splittingResult.splittingStrategy = objectArr.entitySplittingProfileArray[i].splittingStrategy
+        transformedSplittingResult.push(splittingResult);
+      }
+      this.splittingResultUpdated.next({splittingResult : transformedSplittingResult });
+    });
+  }
+
+  requestEntitySplittingStrategyResults(){
+    this.http.get(
+      this.BACKEND_URL_ENTITY_SPLITTING_RESULT).pipe(map(response => ({
+      entitySplittingProfileArray: response
+    }))).subscribe(objectArr => {
+      let transformedSplittingResult : SplittingResult[] = [];
+      for(let i in objectArr.entitySplittingProfileArray){
+        let splittingResult : SplittingResult = {
+          base: "", moduleCluster: [], splittingStrategy: ""
+        }
+        splittingResult.base = objectArr.entitySplittingProfileArray[i].base
+        splittingResult.moduleCluster= objectArr.entitySplittingProfileArray[i].moduleCluster
+        splittingResult.splittingStrategy = objectArr.entitySplittingProfileArray[i].splittingStrategy
+        transformedSplittingResult.push(splittingResult);
+      }
+      this.splittingResultUpdated.next({splittingResult : transformedSplittingResult });
+    });
+  }
+
+  requestExecuteEntitySplittingStrategy(){
     this.http.get(
       this.BACKEND_URL_EXECUTE_ENTITY_SPLITTING).pipe(map(response => ({
       entitySplittingProfileArray: response

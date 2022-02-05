@@ -28,7 +28,7 @@ export class EntitySplittingComponent implements OnInit, OnDestroy{
   }
 
   ngOnInit(): void {
-    this.entitySplittingService.requestEntitySplittingResult();
+    this.entitySplittingService.requestEntitySplittingStrategyResults();
     this.updateEntitySplittingResult();
   }
 
@@ -51,9 +51,9 @@ export class EntitySplittingComponent implements OnInit, OnDestroy{
       });
   }
 
-  remove(component) {
-    // TODO remove in db
-    console.log(component);
+  remove(result, component) {
+    this.entitySplittingService.requestDeleteComponentInModule(result.base, component);
+    this.updateEntitySplittingResult();
   }
 
   ngOnDestroy(): void {
