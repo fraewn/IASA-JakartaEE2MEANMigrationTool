@@ -4,9 +4,7 @@ import {Subscription} from "rxjs";
 import {OntologyKnowledge} from "../../ontology/ontology-component";
 import {LocalAnalysisService} from "../../local-analysis.service";
 import {EntitySplittingProfileModel} from "../entity-splitting-profile.model";
-import {SemanticKnowledge} from "../../local-analysis.model";
 import {EntitySplittingService} from "../entity-splitting.service";
-import {SplittingResult} from "../entity-splitting.model";
 
 /**
  * @title Drag&Drop connected sorting
@@ -44,6 +42,7 @@ export class EntitySplittingProfilingComponent implements OnInit, OnDestroy {
   }
 
   save(){
+    let profileList : EntitySplittingProfileModel[] = [];
     let entitySplittingProfileInstance : EntitySplittingProfileModel = {
       allowedJavaEEComponents: this.allowedJavaEEComponents,
       centralJavaEEComponent: this.centralJavaEEComponent[0],
@@ -51,9 +50,19 @@ export class EntitySplittingProfilingComponent implements OnInit, OnDestroy {
       searchDepth: this.searchExtent,
       substitutionalCentralJavaEEComponent: this.substitutionalJavaEEComponent[0]
     };
-    this.entitySplittingProfile.push(entitySplittingProfileInstance);
-    this.entitySplittingService.requestUpdateSplittingStrategy(this.entitySplittingProfile);
+    console.log(entitySplittingProfileInstance);
+    profileList.push(entitySplittingProfileInstance);
+    this.entitySplittingService.requestUpdateSplittingStrategy(profileList);
+    this.clear();
     this.updateEntitySplittingProfile();
+  }
+
+  clear(){
+    this.substitutionalJavaEEComponent = [];
+    this.filteredJavaEEComponents = [];
+    this.centralJavaEEComponent = [];
+    this.allowedJavaEEComponents = [];
+    this.searchExtent = 0;
   }
 
   setSearchExtent(searchExtent){
@@ -95,6 +104,7 @@ export class EntitySplittingProfilingComponent implements OnInit, OnDestroy {
   }
 
   setUpOnEntitySplittingProfileUpdate(){
+    this.clear();
     for(let i in this.entitySplittingProfile){
       for(let j in this.entitySplittingProfile[i].allowedJavaEEComponents){
         this.allowedJavaEEComponents.push(this.entitySplittingProfile[i].allowedJavaEEComponents[j]);
@@ -169,7 +179,8 @@ export class EntitySplittingProfilingComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy(): void {
-
+    this.entitySplittingProfileSubscribed.unsubscribe();
+    this.ontologyKnowledgeSubscribed.unsubscribe();
   }
 
 
