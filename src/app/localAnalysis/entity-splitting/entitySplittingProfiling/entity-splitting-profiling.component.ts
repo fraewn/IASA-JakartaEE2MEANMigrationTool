@@ -50,7 +50,6 @@ export class EntitySplittingProfilingComponent implements OnInit, OnDestroy {
       searchDepth: this.searchExtent,
       substitutionalCentralJavaEEComponent: this.substitutionalJavaEEComponent[0]
     };
-    console.log(entitySplittingProfileInstance);
     profileList.push(entitySplittingProfileInstance);
     this.entitySplittingService.requestUpdateSplittingStrategy(profileList);
     this.clear();
@@ -89,12 +88,6 @@ export class EntitySplittingProfilingComponent implements OnInit, OnDestroy {
 
   execute(){
     this.entitySplittingService.navigateToEntitySplittingResults();
-  }
-
-
-
-  setUpOnSplittingResultUpdate(){
-
   }
 
   setUpOnOntologyUpdate(){

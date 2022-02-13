@@ -19,6 +19,7 @@ import {EntitySplittingProfilingComponent} from "./entity-splitting/entitySplitt
 import {EntitySplittingComponent} from "./entity-splitting/entitySplitting/entity-splitting.component";
 import {MatIconModule} from "@angular/material/icon";
 import {MatChipsModule} from "@angular/material/chips";
+import {FuncSplittingComponent} from "./func-splitting/funcSplitting/func-splitting.component";
 
 @NgModule({
   declarations: [
@@ -26,7 +27,8 @@ import {MatChipsModule} from "@angular/material/chips";
     EditKeywordsComponent,
     OntologyComponent,
     EntitySplittingProfilingComponent,
-    EntitySplittingComponent
+    EntitySplittingComponent,
+    FuncSplittingComponent
   ],
   imports: [
     // this one we need to use ngModule

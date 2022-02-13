@@ -1,40 +1,39 @@
 import {COMMA, ENTER} from '@angular/cdk/keycodes';
 import {Component, OnDestroy, OnInit} from '@angular/core';
-import {SplittingResult} from "../entity-splitting.model";
 import {Subscription} from "rxjs";
-import {EntitySplittingService} from "../entity-splitting.service";
-
+import {SplittingResult} from "../../entity-splitting/entity-splitting.model";
+import {FuncSplittingService} from "../func-splitting.service";
 
 /**
  * @title Chips with input
  */
 @Component({
-  selector: 'entity-splitting',
-  templateUrl: 'entity-splitting.component.html',
-  styleUrls: ['entity-splitting.component.css'],
+  selector: 'func-splitting',
+  templateUrl: 'func-splitting.component.html',
+  styleUrls: ['func-splitting.component.css'],
 })
-export class EntitySplittingComponent implements OnInit, OnDestroy{
+export class FuncSplittingComponent implements OnInit, OnDestroy{
   // chips
   addOnBlur = true;
   readonly separatorKeysCodes = [ENTER, COMMA] as const;
-  entitySplittingService : EntitySplittingService;
+  funcSplittingService : FuncSplittingService;
 
   // model
   splittingResults : SplittingResult[] = [];
   private splittingResultSubscribed : Subscription;
 
-  constructor(entitySplittingService : EntitySplittingService) {
-    this.entitySplittingService = entitySplittingService;
+  constructor(funcSplittingService : FuncSplittingService) {
+    this.funcSplittingService = funcSplittingService;
   }
 
   ngOnInit(): void {
-    this.entitySplittingService.requestEntitySplittingStrategyResults();
-    this.updateEntitySplittingResult();
+    this.funcSplittingService.requestFunctinalitySplittingStrategyResults();
+    this.updateFunctionalitySplittingResult();
   }
 
-  updateEntitySplittingResult(){
+  updateFunctionalitySplittingResult(){
     // fill up with latest data
-    this.splittingResultSubscribed = this.entitySplittingService.getSplittingResultUpdateListener()
+    this.splittingResultSubscribed = this.funcSplittingService.getSplittingResultUpdateListener()
       .subscribe(subject => {
         // clear
         this.splittingResults = [];
@@ -51,8 +50,8 @@ export class EntitySplittingComponent implements OnInit, OnDestroy{
   }
 
   remove(result, component) {
-    this.entitySplittingService.requestDeleteComponentInModule(result.base, component);
-    this.updateEntitySplittingResult();
+    this.funcSplittingService.requestDeleteComponentInModule(result.base, component);
+    this.updateFunctionalitySplittingResult();
   }
 
   ngOnDestroy(): void {

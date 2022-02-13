@@ -1,0 +1,15 @@
+<h1>Functionality Based Modules</h1>
+<div *ngFor="let result of splittingResults">
+  <mat-form-field  class="example-chip-list" appearance="fill">
+    <mat-label>{{result.base}}</mat-label>
+    <mat-chip-list>
+      <mat-chip *ngFor="let component of result.moduleCluster" (removed)="remove(result, component)">
+        {{component}}
+        <button matChipRemove>
+          <mat-icon>cancel</mat-icon>
+        </button>
+      </mat-chip>
+
+    </mat-chip-list>
+  </mat-form-field>
+</div>

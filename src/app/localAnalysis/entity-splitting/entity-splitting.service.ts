@@ -144,7 +144,6 @@ export class EntitySplittingService{
         profile.substitutionalCentralJavaEEComponent = objectArr.entitySplittingProfileArray[i].substitutionalCentralJavaEEComponent
         profile.searchDepth= objectArr.entitySplittingProfileArray[i].searchDepth
         transformedEntitySplittingProfile.push(profile);
-        console.log(transformedEntitySplittingProfile);
       }
       this.entitySplittingProfileUpdated.next({entitySplittingProfile : transformedEntitySplittingProfile });
     });
