@@ -48,6 +48,7 @@ export class ModuleIdentComponent implements OnInit, OnDestroy{
 
   onDeleteComponent(component){
     console.log(component);
+    this.moduleIdentService.deleteComponent(component);
   }
 
   createFinalModuleComponent(componentCreationInput){
@@ -63,6 +64,19 @@ export class ModuleIdentComponent implements OnInit, OnDestroy{
 
   updateModuleComponent(component){
 
+  }
+
+  onDeleteElement(base, element){
+    for(let i in this.finalSplittingResults){
+      if(base==this.finalSplittingResults[i].base){
+        for(let j in this.finalSplittingResults[i].moduleCluster){
+          if(element==this.finalSplittingResults[i].moduleCluster[j]){
+            this.finalSplittingResults[i].moduleCluster.splice(this.finalSplittingResults[i].moduleCluster.indexOf(j),1);
+          }
+        }
+      }
+    }
+    console.log(this.finalSplittingResults);
   }
 
   ngOnInit(): void {

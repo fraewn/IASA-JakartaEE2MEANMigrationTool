@@ -22,7 +22,7 @@
             class="drag-drop-list"
             (cdkDropListDropped)="drop($event, splittingResultInstance.base)">
             <div class="drag-drop-box " *ngFor="let word of splittingResultInstance.moduleCluster" cdkDrag>{{word}}
-              <button mat-button color="warn" (click)="onDeleteKeyword(splittingResultInstance.base, word)">X</button>
+              <button mat-button color="warn" (click)="onDeleteElement(splittingResultInstance.base, word)">X</button>
             </div>
           </div>
           <button type="submit" id="saveComponentButton" mat-button color="primary" (click)="saveFinalModuleComponent(splittingResultInstance)">Submit</button>
