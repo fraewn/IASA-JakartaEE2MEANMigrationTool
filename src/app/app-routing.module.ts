@@ -15,10 +15,10 @@ import {MPSComponent} from "./dashboard/migrationprocessstep/mps.component";
 import {EntitySplittingProfilingComponent} from "./localAnalysis/entity-splitting/entitySplittingProfiling/entity-splitting-profiling.component";
 import {EntitySplittingComponent} from "./localAnalysis/entity-splitting/entitySplitting/entity-splitting.component";
 import {FuncSplittingComponent} from "./localAnalysis/func-splitting/funcSplitting/func-splitting.component";
+import {ModuleIdentComponent} from "./localAnalysis/module-ident/moduleIdent/module-ident.component";
 
 const routes: Routes = [
-  { path: '', component: ReportListComponent },
-  { path: 'company', component: CompanyListComponent},
+  { path: '', component: MPSComponent },
   { path: 'globalAnalysis', component: AnalysisTableComponent},
   { path: 'semanticAnalysis', component: SemanticAnalysisComponent},
   { path: 'editKeywords', component: EditKeywordsComponent},
@@ -26,12 +26,8 @@ const routes: Routes = [
   { path: 'splitting/entity/profiling', component: EntitySplittingProfilingComponent},
   { path: 'splitting/entity/result', component: EntitySplittingComponent},
   { path: 'splitting/functionality/result', component: FuncSplittingComponent},
+  { path: 'splitting/moduleIdent', component: ModuleIdentComponent},
   { path: 'semanticAnalysis/ontology', component: OntologyComponent},
-  { path: 'failure', component: FailureComponent},
-  { path: 'report/create', component: ReportCreateComponent, canActivate: [AuthGuard]},
-  { path: 'report/edit/:reportId', component: ReportCreateComponent, canActivate: [AuthGuard]},
-  { path: 'company/create', component: CompanyCreateComponent, canActivate: [AuthGuard, RoleGuard], data : {permissionTypes : ['CREATE_COMPANY']}},
-  { path: 'company/edit/:companyId', component: CompanyCreateComponent, canActivate: [AuthGuard]},
   // in load children you can describe the path you want to load lazily
   // old syntax: load Children: './auth/auth.module#AuthModule'
   { path: 'auth', loadChildren: () => import('./auth/auth.module').then(m => m.AuthModule) }

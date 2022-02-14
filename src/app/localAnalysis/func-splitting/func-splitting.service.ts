@@ -3,7 +3,7 @@ import {Subject} from "rxjs";
 import {EntitySplittingProfileModel} from "../entity-splitting/entity-splitting-profile.model";
 import {SplittingResult} from "../entity-splitting/entity-splitting.model";
 import {environment} from "../../../environments/environment";
-import {HttpClient, HttpHeaders} from "@angular/common/http";
+import {HttpClient} from "@angular/common/http";
 import {Router} from "@angular/router";
 import {map} from "rxjs/operators";
 
@@ -51,7 +51,7 @@ export class FuncSplittingService{
     });
   }
 
-  requestFunctinalitySplittingStrategyResults(){
+  requestFunctionalitySplittingStrategyResults(){
     this.http.get(
       this.BACKEND_URL_ENTITY_SPLITTING_RESULT).pipe(map(response => ({
       functionalitySplittingProfileArray: response

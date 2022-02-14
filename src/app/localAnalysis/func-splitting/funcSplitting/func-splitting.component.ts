@@ -27,7 +27,7 @@ export class FuncSplittingComponent implements OnInit, OnDestroy{
   }
 
   ngOnInit(): void {
-    this.funcSplittingService.requestFunctinalitySplittingStrategyResults();
+    this.funcSplittingService.requestFunctionalitySplittingStrategyResults();
     this.updateFunctionalitySplittingResult();
   }
 

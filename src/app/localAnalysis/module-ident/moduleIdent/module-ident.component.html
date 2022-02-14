@@ -1,0 +1,81 @@
+<span><h1>Clean and Merge Entity and Functionality Based Modules</h1></span>
+<p></p>
+<form class="example-form" #componentCreation="ngForm" (ngSubmit)="createFinalModuleComponent(componentCreation.value)">
+  <mat-form-field class="example-full-width" appearance="fill">
+    <mat-label>Create new component</mat-label>
+    <input matInput placeholder="Name" name="componentName" ngModel>
+  </mat-form-field>
+  <button type="submit" id="addComponentButton" mat-raised-button color="accent">Save</button>
+  <button id="savebutton" mat-stroked-button color="primary" (click)="onSave()">Save All</button>
+</form>
+<div cdkDropListGroup>
+  <div id="dragAndDropLists0">
+    <div class="drag-drop-container" *ngFor="let splittingResultInstance of finalSplittingResults">
+      <div class="example-box" cdkDrag>
+        <mat-card class="finalModuleDragDropList"> <mat-card-title>{{splittingResultInstance.base}} </mat-card-title>
+        <mat-card-subtitle>({{splittingResultInstance.splittingStrategy}})</mat-card-subtitle>
+        <mat-card-actions>
+          <div
+            cdkDropList
+            id={{splittingResultInstance.base}}
+            [cdkDropListData]="splittingResultInstance.moduleCluster"
+            class="drag-drop-list"
+            (cdkDropListDropped)="drop($event, splittingResultInstance.base)">
+            <div class="drag-drop-box " *ngFor="let word of splittingResultInstance.moduleCluster" cdkDrag>{{word}}
+              <button mat-button color="warn" (click)="onDeleteKeyword(splittingResultInstance.base, word)">X</button>
+            </div>
+          </div>
+          <button type="submit" id="saveComponentButton" mat-button color="primary" (click)="saveFinalModuleComponent(splittingResultInstance)">Submit</button>
+          <button mat-button color="warn" (click)="onDeleteComponent(splittingResultInstance)">Delete</button>
+      </mat-card-actions>
+        </mat-card>
+      </div>
+    </div>
+  </div>
+  <div id="dragAndDropLists">
+    <div class="drag-drop-container" *ngFor="let splittingResultInstance of entitySplittingResults">
+      <div class="example-box" cdkDrag>
+        <mat-card class="entityDragDropList"> <mat-card-title>{{splittingResultInstance.base}} </mat-card-title>
+          <mat-card-subtitle>({{splittingResultInstance.splittingStrategy}})</mat-card-subtitle>
+          <mat-card-actions>
+            <div
+              cdkDropList
+              id={{splittingResultInstance.base}}
+              [cdkDropListData]="splittingResultInstance.moduleCluster"
+              class="drag-drop-list"
+              (cdkDropListDropped)="drop($event, splittingResultInstance.base)">
+              <div class="drag-drop-box" *ngFor="let word of splittingResultInstance.moduleCluster" cdkDrag>{{word}}
+                <button mat-button color="warn" (click)="onDeleteKeyword(splittingResultInstance.base, word)">X</button>
+              </div>
+            </div>
+            <button type="submit" id="saveComponentButton" mat-button color="primary" (click)="saveFinalModuleComponent(splittingResultInstance)">Submit</button>
+            <button mat-button color="warn" (click)="onDeleteComponent(splittingResultInstance)">Delete</button>
+          </mat-card-actions>
+        </mat-card>
+    </div>
+    </div>
+  </div>
+  <div id="dragAndDropLists1">
+    <div class="drag-drop-container" *ngFor="let splittingResultInstance of funcSplittingResults">
+      <div class="example-box" cdkDrag>
+        <mat-card class="funcDragDropList"> <mat-card-title>{{splittingResultInstance.base}} </mat-card-title>
+          <mat-card-subtitle>({{splittingResultInstance.splittingStrategy}})</mat-card-subtitle>
+          <mat-card-actions>
+            <div
+              cdkDropList
+              id={{splittingResultInstance.base}}
+              [cdkDropListData]="splittingResultInstance.moduleCluster"
+              class="drag-drop-list"
+              (cdkDropListDropped)="drop($event, splittingResultInstance.base)">
+              <div class="drag-drop-box" *ngFor="let word of splittingResultInstance.moduleCluster" cdkDrag>{{word}}
+                <button mat-button color="warn" (click)="onDeleteKeyword(splittingResultInstance.base, word)">X</button>
+              </div>
+            </div>
+            <button type="submit" id="saveComponentButton" mat-button color="primary" (click)="saveFinalModuleComponent(splittingResultInstance)">Submit</button>
+            <button mat-button color="warn" (click)="onDeleteComponent(splittingResultInstance)">Delete</button>
+          </mat-card-actions>
+        </mat-card>
+    </div>
+    </div>
+  </div>
+</div>
