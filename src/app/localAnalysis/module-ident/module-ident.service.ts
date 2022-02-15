@@ -40,7 +40,7 @@ export class ModuleIdentService{
     });
   }
 
-  deleteComponent(moduleKnowledge){
+  deleteModule(moduleKnowledge){
     const body = moduleKnowledge;
     this.http.post(
       this.BACKEND_URL_FINAL_MODULES_DELETE, body).pipe(map(response => ({
@@ -58,6 +58,10 @@ export class ModuleIdentService{
       }
       this.splittingResultUpdated.next({splittingResult : transformedSplittingResult });
     });
+  }
+
+  deleteComponentInModule(base, component){
+
   }
 
   getAllFinaleModules(){

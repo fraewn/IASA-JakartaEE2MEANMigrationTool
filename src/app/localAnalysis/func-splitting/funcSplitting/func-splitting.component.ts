@@ -29,6 +29,7 @@ export class FuncSplittingComponent implements OnInit, OnDestroy{
   ngOnInit(): void {
     this.funcSplittingService.requestFunctionalitySplittingStrategyResults();
     this.updateFunctionalitySplittingResult();
+
   }
 
   updateFunctionalitySplittingResult(){
@@ -45,6 +46,10 @@ export class FuncSplittingComponent implements OnInit, OnDestroy{
           splittingResult.splittingStrategy = subject.splittingResult[i].splittingStrategy;
           splittingResult.moduleCluster = subject.splittingResult[i].moduleCluster;
           this.splittingResults.push(splittingResult);
+        }
+        if(this.splittingResults.length==0){
+          this.funcSplittingService.requestExecuteFunctionalitySplittingStrategy();
+          this.updateFunctionalitySplittingResult();
         }
       });
   }

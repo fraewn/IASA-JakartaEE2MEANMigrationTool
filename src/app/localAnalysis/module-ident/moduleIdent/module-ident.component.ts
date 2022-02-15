@@ -48,11 +48,18 @@ export class ModuleIdentComponent implements OnInit, OnDestroy{
 
   onDeleteComponent(component){
     console.log(component);
-    this.moduleIdentService.deleteComponent(component);
+    this.moduleIdentService.deleteModule(component);
+  }
+
+  onDeleteEntityComponent(base){
+    this.entitySplittingService.requestDeleteModule(base);
+  }
+
+  onDeleteFuncComponent(base){
+    this.funcSplittingService.requestDeleteModule(base);
   }
 
   createFinalModuleComponent(componentCreationInput){
-    console.log(componentCreationInput.componentName);
     let finalSplittingResult : SplittingResult = {base: componentCreationInput.componentName, splittingStrategy: "Manual Assignment", moduleCluster: []};
     this.finalSplittingResults.push(finalSplittingResult);
   }
@@ -61,9 +68,16 @@ export class ModuleIdentComponent implements OnInit, OnDestroy{
     console.log(cluster);
     this.moduleIdentService.addFinaleModule(cluster);
   }
+  updateModuleComponent(component) {
 
-  updateModuleComponent(component){
+  }
 
+  onDuplicateElement(base, element){
+    for(let i in this.finalSplittingResults){
+      if(base==this.finalSplittingResults[i].base){
+        this.finalSplittingResults[i].moduleCluster.push(element);
+      }
+    }
   }
 
   onDeleteElement(base, element){
@@ -162,11 +176,17 @@ export class ModuleIdentComponent implements OnInit, OnDestroy{
   ngOnDestroy(): void {
   }
 
-  onDeleteKeyword(layer, keyword){
-    this.localAnalysisService.requestDeleteKeywordFromLayer(layer, keyword);
+  onDeleteComponentInModule(base, word){
+    this.entitySplittingService.requestDeleteComponentInModule(base, word);
   }
 
   onSave(){
+
+  }
+
+  onDeclareAsFinalModule(module){
+    let finalSplittingResult : SplittingResult = {base: module.base, splittingStrategy: "Manual Assignment", moduleCluster: module.moduleCluster};
+    this.finalSplittingResults.push(finalSplittingResult);
 
   }
 
