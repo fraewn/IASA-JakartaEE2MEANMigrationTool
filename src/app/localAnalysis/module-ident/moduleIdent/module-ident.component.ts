@@ -7,6 +7,8 @@ import {EntitySplittingService} from "../../entity-splitting/entity-splitting.se
 import {FuncSplittingService} from "../../func-splitting/func-splitting.service";
 import {SplittingResult} from "../../entity-splitting/entity-splitting.model";
 import {ModuleIdentService} from "../module-ident.service";
+import {FormControl} from "@angular/forms";
+import {MatOption} from "@angular/material/core";
 
 /**
  * @title Drag&Drop connected sorting
@@ -17,6 +19,9 @@ import {ModuleIdentService} from "../module-ident.service";
   styleUrls: ['module-ident.component.css'],
 })
 export class ModuleIdentComponent implements OnInit, OnDestroy{
+  private optionSelected = "";
+  moduleKindOptions = ["Backend Entity Processing", "Backend Feature", "Frontend Entity Processing", "Frontend Feature"];
+  myControl = new FormControl();
   localAnalysisService : LocalAnalysisService;
   entitySplittingService : EntitySplittingService;
   funcSplittingService : FuncSplittingService;
@@ -64,12 +69,21 @@ export class ModuleIdentComponent implements OnInit, OnDestroy{
     this.finalSplittingResults.push(finalSplittingResult);
   }
 
+  test(option : MatOption){
+    console.log(option.value);
+  }
+
   saveFinalModuleComponent(cluster){
     console.log(cluster);
     this.moduleIdentService.addFinaleModule(cluster);
   }
+
   updateModuleComponent(component) {
 
+  }
+
+  onDeleteUsedModule(usedModule, base){
+    this.moduleIdentService.requestDeleteCallFromModule(usedModule, base);
   }
 
   onDuplicateElement(base, element){
@@ -78,6 +92,21 @@ export class ModuleIdentComponent implements OnInit, OnDestroy{
         this.finalSplittingResults[i].moduleCluster.push(element);
       }
     }
+  }
+
+  onUsedModulesOptionSelected(option: MatOption, splittingResultInstance){
+    this.moduleIdentService.requestAddCallToModule(option.value, splittingResultInstance.base);
+    window.location.reload();
+  }
+
+  onModuleKindOptionSelected(option: MatOption, splittingResultInstance){
+    this.moduleIdentService.requestSetKindOfModule(option.value, splittingResultInstance.base);
+    window.location.reload();
+  }
+
+  createCall(module, calledModule){
+    console.log(module);
+    console.log(calledModule);
   }
 
   onDeleteElement(base, element){
@@ -117,6 +146,8 @@ export class ModuleIdentComponent implements OnInit, OnDestroy{
           splittingResult.base = subject.splittingResult[i].base;
           splittingResult.splittingStrategy = subject.splittingResult[i].splittingStrategy;
           splittingResult.moduleCluster = subject.splittingResult[i].moduleCluster;
+          splittingResult.usedModules = subject.splittingResult[i].usedModules;
+          splittingResult.usage = subject.splittingResult[i].usage;
           this.finalSplittingResults.push(splittingResult);
         }
       });

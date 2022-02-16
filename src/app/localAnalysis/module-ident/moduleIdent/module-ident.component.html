@@ -26,7 +26,54 @@
               <button id="minus" mat-button color="primary" (click)="onDuplicateElement(splittingResultInstance.base, word)">+</button>
             </div>
           </div>
-          <button type="submit" id="saveComponentButton" mat-button color="primary" (click)="saveFinalModuleComponent(splittingResultInstance)">Submit</button>
+          <p></p>
+
+          <form class="example-form" >
+            <mat-form-field class="example-full-width" appearance="fill">
+              <mat-label>Module Kind</mat-label>
+              <input type="text"
+                     matInput
+                     [formControl]="myControl"
+                     [matAutocomplete]="auto">
+              <mat-autocomplete #auto="matAutocomplete" (optionSelected)="onModuleKindOptionSelected($event.option, splittingResultInstance)">
+                <mat-option *ngFor="let kind of moduleKindOptions" [value]="kind">
+                  {{kind}}
+                </mat-option>
+              </mat-autocomplete>
+            </mat-form-field>
+            <h5>Module Kind: {{splittingResultInstance.usage}}</h5>
+            <mat-form-field class="example-full-width" appearance="fill">
+              <mat-label>Call to other Module</mat-label>
+              <input type="text"
+                     matInput
+                     [formControl]="myControl"
+                     [matAutocomplete]="auto1">
+              <mat-autocomplete #auto1="matAutocomplete" (optionSelected)="onUsedModulesOptionSelected($event.option, splittingResultInstance)">
+                <mat-option *ngFor="let splittingResult of finalSplittingResults" [value]="splittingResult.base">
+                  {{splittingResult.base}}
+                </mat-option>
+              </mat-autocomplete>
+
+            </mat-form-field>
+
+            <!--<mat-form-field class="example-full-width" appearance="fill">
+              <mat-label>Description</mat-label>
+              <input matInput name="callDescription" ngModel>
+              <button type="submit" id="addRelationButton" mat-button color="accent">Save Relation</button>
+            </mat-form-field>-->
+
+          </form>
+          <div
+            cdkDropList
+            id={{splittingResultInstance.base}}
+            [cdkDropListData]="splittingResultInstance.moduleCluster"
+            class="drag-drop-list"
+            (cdkDropListDropped)="drop($event, splittingResultInstance.base)">
+            <div class="drag-drop-box " *ngFor="let word of splittingResultInstance.usedModules" cdkDrag>{{word}}
+              <button id="plus" mat-button color="warn" (click)="onDeleteUsedModule(word, splittingResultInstance.base)">x</button>
+            </div>
+          </div>
+          <button type="submit" id="saveComponentButton" mat-raised-button color="primary" (click)="saveFinalModuleComponent(splittingResultInstance)">Submit</button>
           <button mat-button color="warn" (click)="onDeleteComponent(splittingResultInstance)">Delete</button>
       </mat-card-actions>
         </mat-card>
