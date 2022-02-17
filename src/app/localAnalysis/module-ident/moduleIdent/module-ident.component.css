@@ -11,6 +11,13 @@ h3, h5{
   margin: -2em;
  }
 
+#dragAndDropLists3{
+  vertical-align: top;
+  right:20px;
+  position: fixed;
+  top: 60px;
+}
+
 h1{
   color: darkgray;
 }

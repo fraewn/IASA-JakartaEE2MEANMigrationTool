@@ -9,6 +9,9 @@ import {SplittingResult} from "../../entity-splitting/entity-splitting.model";
 import {ModuleIdentService} from "../module-ident.service";
 import {FormControl} from "@angular/forms";
 import {MatOption} from "@angular/material/core";
+import {NodeKnowledge} from "../../../globalAnalysis/global-analysis.model";
+import {GlobalAnalysisService} from "../../../globalAnalysis/global-analysis.service";
+import {LiveAnnouncer} from "@angular/cdk/a11y";
 
 /**
  * @title Drag&Drop connected sorting
@@ -20,6 +23,11 @@ import {MatOption} from "@angular/material/core";
 })
 export class ModuleIdentComponent implements OnInit, OnDestroy{
   private optionSelected = "";
+  nodeKnowledgeNames = [];
+  alreadyUsedClasses = [];
+  globalAnalysisService : GlobalAnalysisService;
+  nodeKnowledge : NodeKnowledge[] = [];
+  private nodeKnowledgeSubscribed : Subscription;
   moduleKindOptions = ["Backend Entity Processing", "Backend Feature", "Frontend Entity Processing", "Frontend Feature"];
   myControl = new FormControl();
   localAnalysisService : LocalAnalysisService;
@@ -44,16 +52,40 @@ export class ModuleIdentComponent implements OnInit, OnDestroy{
   doner = ['Get up', 'Brush teeth', 'Take a shower', 'Check e-mail', 'Walk dog'];
 
   constructor(localAnalysisService : LocalAnalysisService, funcSplittingService : FuncSplittingService, entitySplittingService : EntitySplittingService,
-              moduleIdentService : ModuleIdentService) {
+              moduleIdentService : ModuleIdentService, globalAnalysisService : GlobalAnalysisService) {
     this.localAnalysisService = localAnalysisService;
     this.funcSplittingService = funcSplittingService;
     this.entitySplittingService = entitySplittingService;
     this.moduleIdentService = moduleIdentService;
+    this.globalAnalysisService = globalAnalysisService;
   }
 
   onDeleteComponent(component){
     console.log(component);
     this.moduleIdentService.deleteModule(component);
+  }
+
+  setUpNodeKnowledge(classesUsed){
+    this.nodeKnowledgeNames = [];
+    let classAlreadyUsed = false;
+    for(let i in this.nodeKnowledge){
+      for(let j in classesUsed){
+        if(this.nodeKnowledge[i].name==classesUsed[j]){
+          console.log(classAlreadyUsed);
+          classAlreadyUsed=true;
+        }
+      }
+      for(let k in this.nodeKnowledge[i].label){
+        if(this.nodeKnowledge[i].label[k]=="Entity" || this.nodeKnowledge[i].label[k]=="Layer" || this.nodeKnowledge[i].label[k]=="Library"){
+          classAlreadyUsed = true;
+        }
+      }
+      if(classAlreadyUsed==false) {
+        console.log(this.nodeKnowledge[i].name);
+        this.nodeKnowledgeNames.push(this.nodeKnowledge[i].name);
+      }
+      classAlreadyUsed = false;
+    }
   }
 
   onDeleteEntityComponent(base){
@@ -131,6 +163,8 @@ export class ModuleIdentComponent implements OnInit, OnDestroy{
     this.updateFunctionalitySplittingResult();
     this.moduleIdentService.getAllFinaleModules();
     this.updateFinalModules();
+    this.globalAnalysisService.requestCurrentGlobalKnowledge();
+    this.updateNodeKnowledgeData();
   }
 
   updateFinalModules(){
@@ -221,7 +255,7 @@ export class ModuleIdentComponent implements OnInit, OnDestroy{
 
   }
 
-  drop(event: CdkDragDrop<string[]>, layer) {
+  drop(event: CdkDragDrop<string[]>) {
     if (event.previousContainer === event.container) {
       moveItemInArray(event.container.data, event.previousIndex, event.currentIndex);
     } else {
@@ -239,5 +273,82 @@ export class ModuleIdentComponent implements OnInit, OnDestroy{
 
   moveKeyword(keyword, oldLayer, newLayer){
     this.localAnalysisService.requestMoveKeyword(keyword, oldLayer, newLayer);
+  }
+
+  updateNodeKnowledgeData(){
+    // fill up with latest data
+    this.nodeKnowledgeSubscribed = this.globalAnalysisService.getNodeKnowledgeUpdateListener()
+      .subscribe(subject => {
+        // clear
+        this.nodeKnowledge = [];
+        for(let i in subject.nodeKnowledge){
+          let nodeKnowledgeInstance : NodeKnowledge = {
+            associatedLayers: [],
+            associatedMeanModuleType: "",
+            betweennessCentralityScore: 0,
+            calculatedInterpretation: "",
+            classIsEntity: false,
+            closenessCentralityScore: 0,
+            label: [],
+            pageRankScore: 0,
+            representedEntity: "",
+            representedMeanModuleType: "",
+            review: false,
+            reviewNecessary: false,
+            triangleCoefficientScore: 0,
+            triangleScore: 0,
+            name:"",
+            keywords:[]};
+          nodeKnowledgeInstance.name = subject.nodeKnowledge[i].name;
+          nodeKnowledgeInstance.label = subject.nodeKnowledge[i].label;
+          nodeKnowledgeInstance.triangleScore = this.precisionRound(subject.nodeKnowledge[i].triangleScore, 2);
+          nodeKnowledgeInstance.triangleCoefficientScore =  this.precisionRound(subject.nodeKnowledge[i].triangleCoefficientScore, 2);
+          nodeKnowledgeInstance.betweennessCentralityScore =  this.precisionRound(subject.nodeKnowledge[i].betweennessCentralityScore, 2);
+          nodeKnowledgeInstance.pageRankScore = this.precisionRound(subject.nodeKnowledge[i].pageRankScore, 2);
+          nodeKnowledgeInstance.closenessCentralityScore = this.precisionRound(subject.nodeKnowledge[i].closenessCentralityScore, 2);
+          nodeKnowledgeInstance.classIsEntity = subject.nodeKnowledge[i].classIsEntity;
+          nodeKnowledgeInstance.representedEntity = subject.nodeKnowledge[i].representedEntity;
+          nodeKnowledgeInstance.keywords = subject.nodeKnowledge[i].keywords;
+          nodeKnowledgeInstance.associatedLayers = subject.nodeKnowledge[i].associatedLayers;
+          nodeKnowledgeInstance.calculatedInterpretation = subject.nodeKnowledge[i].calculatedInterpretation;
+          nodeKnowledgeInstance.reviewNecessary = subject.nodeKnowledge[i].reviewNecessary;
+          nodeKnowledgeInstance.review = subject.nodeKnowledge[i].review;
+          nodeKnowledgeInstance.representedMeanModuleType = subject.nodeKnowledge[i].representedMeanModuleType;
+          nodeKnowledgeInstance.associatedMeanModuleType = subject.nodeKnowledge[i].associatedMeanModuleType;
+
+          this.nodeKnowledge.push(nodeKnowledgeInstance);
+
+
+        }
+        let classesUsed = [];
+        for(let i in this.finalSplittingResults){
+          for(let j in this.finalSplittingResults[i].moduleCluster){
+            classesUsed.push(this.finalSplittingResults[i].moduleCluster[j]);
+          }
+        }
+        this.setUpNodeKnowledge(classesUsed);
+
+      });
+  }
+
+  onDuplicateNodeKnowledge(name){
+    for(let i in this.nodeKnowledge){
+      if(name==this.nodeKnowledge[i].name){
+        this.nodeKnowledge.push(this.nodeKnowledge[i]);
+      }
+    }
+  }
+
+  // method by: https://expertcodeblog.wordpress.com/2018/02/12/typescript-javascript-round-number-by-decimal-pecision/
+  public precisionRound(number: number, precision: number)
+  {
+    if (precision < 0)
+    {
+      let factor = Math.pow(10, precision);
+      return Math.round(number * factor) / factor;
+    }
+    else
+      return +(Math.round(Number(number + "e+" + precision)) +
+        "e-" + precision);
   }
 }

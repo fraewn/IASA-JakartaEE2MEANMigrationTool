@@ -20,7 +20,7 @@
             id={{splittingResultInstance.base}}
             [cdkDropListData]="splittingResultInstance.moduleCluster"
             class="drag-drop-list"
-            (cdkDropListDropped)="drop($event, splittingResultInstance.base)">
+            (cdkDropListDropped)="drop($event)">
             <div class="drag-drop-box " *ngFor="let word of splittingResultInstance.moduleCluster" cdkDrag>{{word}}
               <button id="plus" mat-button color="warn" (click)="onDeleteElement(splittingResultInstance.base, word)">x</button>
               <button id="minus" mat-button color="primary" (click)="onDuplicateElement(splittingResultInstance.base, word)">+</button>
@@ -68,7 +68,7 @@
             id={{splittingResultInstance.base}}
             [cdkDropListData]="splittingResultInstance.moduleCluster"
             class="drag-drop-list"
-            (cdkDropListDropped)="drop($event, splittingResultInstance.base)">
+            (cdkDropListDropped)="drop($event)">
             <div class="drag-drop-box " *ngFor="let word of splittingResultInstance.usedModules" cdkDrag>{{word}}
               <button id="plus" mat-button color="warn" (click)="onDeleteUsedModule(word, splittingResultInstance.base)">x</button>
             </div>
@@ -76,6 +76,28 @@
           <button type="submit" id="saveComponentButton" mat-raised-button color="primary" (click)="saveFinalModuleComponent(splittingResultInstance)">Submit</button>
           <button mat-button color="warn" (click)="onDeleteComponent(splittingResultInstance)">Delete</button>
       </mat-card-actions>
+        </mat-card>
+      </div>
+    </div>
+  </div>
+
+
+  <div id="dragAndDropLists3">
+    <div class="drag-drop-container" >
+      <div class="example-box" cdkDrag>
+        <mat-card class="entityDragDropList"> <mat-card-title> Other classes </mat-card-title>
+          <mat-card-actions>
+            <div
+              cdkDropList
+              id={{nodeKnowledge}}
+              [cdkDropListData]="nodeKnowledgeNames"
+              class="drag-drop-list"
+              (cdkDropListDropped)="drop($event)">
+              <div class="drag-drop-box" *ngFor="let name of nodeKnowledgeNames" cdkDrag>{{name}}
+                <button id="minus" mat-button color="primary" (click)="onDuplicateNodeKnowledge(name)">+</button>
+              </div>
+            </div>
+          </mat-card-actions>
         </mat-card>
       </div>
     </div>
@@ -91,7 +113,7 @@
               id={{splittingResultInstance.base}}
               [cdkDropListData]="splittingResultInstance.moduleCluster"
               class="drag-drop-list"
-              (cdkDropListDropped)="drop($event, splittingResultInstance.base)">
+              (cdkDropListDropped)="drop($event)">
               <div class="drag-drop-box" *ngFor="let word of splittingResultInstance.moduleCluster" cdkDrag>{{word}}
                 <button mat-button color="warn" (click)="onDeleteComponentInModule(splittingResultInstance.base, word)">x</button>
                 <button id="minus" mat-button color="primary" (click)="onDuplicateElement(splittingResultInstance.base, word)">+</button>
@@ -115,7 +137,7 @@
               id={{splittingResultInstance.base}}
               [cdkDropListData]="splittingResultInstance.moduleCluster"
               class="drag-drop-list"
-              (cdkDropListDropped)="drop($event, splittingResultInstance.base)">
+              (cdkDropListDropped)="drop($event)">
               <div class="drag-drop-box" *ngFor="let word of splittingResultInstance.moduleCluster" cdkDrag>{{word}}
                 <button mat-button color="warn" (click)="onDeleteComponentInModule(splittingResultInstance.base, word)">x</button>
                 <button id="minus" mat-button color="primary" (click)="onDuplicateElement(splittingResultInstance.base, word)">+</button>
