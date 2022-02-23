@@ -7,6 +7,10 @@ h3, h5{
   background-color: #FFBEBC;
 }
 
+#createArchButton {
+  margin-left: 2em;
+}
+
 #plus, #minus{
   margin: -2em;
  }

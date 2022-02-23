@@ -5,18 +5,15 @@ import {HTTP_INTERCEPTORS, HttpClientModule} from "@angular/common/http";
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import {HeaderComponent} from "./header/header.component";
-import {AuthInterceptor} from "./auth/auth-interceptor";
 import {ErrorInterceptor} from "./error-interceptor";
 import {ErrorComponent} from "./error/error.component";
 import {AngularMaterialModule} from "./angular-material.module";
-import {ReportModule} from "./reports/report.module";
-import {CompanyModule} from "./companies/company.module";
-import {FailureComponent} from "./failure/failure.component";
 import {FormsModule} from "@angular/forms";
 import {AnalysisModule} from "./analysis/analysis.module";
 import {GlobalAnalysisModule} from "./globalAnalysis/global-analysis.module";
 import {LocalAnalysisModule} from "./localAnalysis/local-analysis.module";
 import {DashboardModule} from "./dashboard/dashboard.module";
+import {MatToolbarModule} from "@angular/material/toolbar";
 
 // defines the features our angular application has
 // angular thinks in applications and applications are split in modules
@@ -29,8 +26,7 @@ import {DashboardModule} from "./dashboard/dashboard.module";
     // now we can use the 'app-root' selector in other angular components, but not yet in the index.html
     AppComponent,
     HeaderComponent,
-    ErrorComponent,
-    FailureComponent
+    ErrorComponent
   ],
   imports: [
     // BrowserModule contains some core features of angular
@@ -39,16 +35,14 @@ import {DashboardModule} from "./dashboard/dashboard.module";
     BrowserAnimationsModule,
     HttpClientModule,
     AngularMaterialModule,
-    ReportModule,
-    CompanyModule,
     FormsModule,
     AnalysisModule,
     GlobalAnalysisModule,
     LocalAnalysisModule,
-    DashboardModule
+    DashboardModule,
+    MatToolbarModule
   ],
-  providers: [{provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true},
-    {provide: HTTP_INTERCEPTORS, useClass: ErrorInterceptor, multi: true}],
+  providers: [],
   // here we add the app component to the bootstrap array too so we can use it in index.html
   // there is typically only one component in the bootstrap array, which is the "root" component
   // all other components would be somehow nested in the root component

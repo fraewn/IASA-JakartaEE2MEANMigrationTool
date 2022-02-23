@@ -14,6 +14,7 @@ export class ModuleIdentService{
   private BACKEND_URL_FINAL_MODULES_DELETE_USEDMODULE = environment.backend_final_modules + "/delete/usedModule";
   private BACKEND_URL_FINAL_MODULES_GET = environment.backend_final_modules + "/get";
   private BACKEND_URL_FINAL_MODULES_DELETE = environment.backend_final_modules + "/delete";
+  private BACKEND_URL_CREATE_ARCH = environment.backend_arch + "/create";
 
   constructor(private http: HttpClient, private router: Router) {}
 
@@ -21,6 +22,10 @@ export class ModuleIdentService{
 
   getSplittingResultUpdateListener(){
     return this.splittingResultUpdated.asObservable();
+  }
+
+  requestCreateArchitecture(){
+    this.http.get(this.BACKEND_URL_CREATE_ARCH);
   }
 
   requestAddCallToModule(calledModule, base){

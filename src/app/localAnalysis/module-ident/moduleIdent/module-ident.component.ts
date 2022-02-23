@@ -60,6 +60,10 @@ export class ModuleIdentComponent implements OnInit, OnDestroy{
     this.globalAnalysisService = globalAnalysisService;
   }
 
+  onCreateGraphArchitecture(){
+    this.moduleIdentService.requestCreateArchitecture();
+  }
+
   onDeleteComponent(component){
     console.log(component);
     this.moduleIdentService.deleteModule(component);
