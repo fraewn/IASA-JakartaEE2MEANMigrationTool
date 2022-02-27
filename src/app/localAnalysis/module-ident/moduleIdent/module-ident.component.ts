@@ -11,7 +11,6 @@ import {FormControl} from "@angular/forms";
 import {MatOption} from "@angular/material/core";
 import {NodeKnowledge} from "../../../globalAnalysis/global-analysis.model";
 import {GlobalAnalysisService} from "../../../globalAnalysis/global-analysis.service";
-import {LiveAnnouncer} from "@angular/cdk/a11y";
 
 /**
  * @title Drag&Drop connected sorting
@@ -37,8 +36,10 @@ export class ModuleIdentComponent implements OnInit, OnDestroy{
   // model
   entitySplittingResults : SplittingResult[] = [];
   funcSplittingResults : SplittingResult[] = [];
+  louvainCluster : SplittingResult[] = [];
   finalSplittingResults : SplittingResult[] = [];
   private splittingResultSubscribed : Subscription;
+  private louvainClusterSubscribed : Subscription;
   componentName = "";
   lists = [];
 
@@ -161,6 +162,8 @@ export class ModuleIdentComponent implements OnInit, OnDestroy{
   ngOnInit(): void {
     // get latest data
     this.lists.push(1);
+    this.moduleIdentService.requestLouvainCluster();
+    this.updateLouvainClusters();
     this.entitySplittingService.requestEntitySplittingStrategyResults();
     this.updateEntitySplittingResult();
     this.funcSplittingService.requestFunctionalitySplittingStrategyResults();
@@ -169,6 +172,7 @@ export class ModuleIdentComponent implements OnInit, OnDestroy{
     this.updateFinalModules();
     this.globalAnalysisService.requestCurrentGlobalKnowledge();
     this.updateNodeKnowledgeData();
+
   }
 
   updateFinalModules(){
@@ -187,6 +191,25 @@ export class ModuleIdentComponent implements OnInit, OnDestroy{
           splittingResult.usedModules = subject.splittingResult[i].usedModules;
           splittingResult.usage = subject.splittingResult[i].usage;
           this.finalSplittingResults.push(splittingResult);
+        }
+      });
+  }
+
+  updateLouvainClusters(){
+    this.louvainClusterSubscribed = this.moduleIdentService.getLouvainClusterUpdateListener()
+      .subscribe(subject => {
+        // clear
+        this.louvainCluster = [];
+        for(let i in subject.splittingResult){
+          let splittingResult : SplittingResult = {
+            base: "", moduleCluster: [], splittingStrategy: ""
+          }
+          splittingResult.base = subject.splittingResult[i].base;
+          splittingResult.splittingStrategy = subject.splittingResult[i].splittingStrategy;
+          splittingResult.moduleCluster = subject.splittingResult[i].moduleCluster;
+          splittingResult.usedModules = subject.splittingResult[i].usedModules;
+          splittingResult.usage = subject.splittingResult[i].usage;
+          this.louvainCluster.push(splittingResult);
         }
       });
   }

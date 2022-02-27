@@ -4,7 +4,9 @@
 h3, h5{
   padding: 1px;
   margin: 1px;
-  background-color: #FFBEBC;
+  color: #c51162;
+  font-weight: bolder;
+  font-size: 0.85em;
 }
 
 #createArchButton {
@@ -15,6 +17,9 @@ h3, h5{
   margin: -2em;
  }
 
+#saveComponentButton {
+  margin-top: 0.6em;
+}
 #dragAndDropLists3{
   vertical-align: top;
   right:20px;
@@ -27,15 +32,27 @@ h1{
 }
 
 .entityDragDropList{
-  background: antiquewhite;
+  background: #e0f2f1;
 }
 
 .funcDragDropList{
-  background: cornflowerblue ;
+  background: #80cbc4 ;
 }
 
 .finalModuleDragDropList{
-  background: #FFFFB5;
+  background: #fce4ec;
+}
+
+.louvainClusterDragDropList{
+  background: #26a69a;
+}
+
+.mat-card-title{
+  font-size: 1.1em;
+}
+
+.otherClassesDragDropList {
+  background: #78909c;
 }
 
 #addComponentButton{

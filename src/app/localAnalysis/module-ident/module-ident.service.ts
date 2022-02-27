@@ -15,13 +15,19 @@ export class ModuleIdentService{
   private BACKEND_URL_FINAL_MODULES_GET = environment.backend_final_modules + "/get";
   private BACKEND_URL_FINAL_MODULES_DELETE = environment.backend_final_modules + "/delete";
   private BACKEND_URL_CREATE_ARCH = environment.backend_arch + "/create";
+  private BACKEND_URL_LOUVAIN_CLUSTERS_GET = environment.backend + "/globalAnalyses/louvain";
 
   constructor(private http: HttpClient, private router: Router) {}
 
   private splittingResultUpdated = new Subject<{splittingResult : SplittingResult[]}>()
+  private louvainClusterUpdated = new Subject<{splittingResult : SplittingResult[]}>()
 
   getSplittingResultUpdateListener(){
     return this.splittingResultUpdated.asObservable();
+  }
+
+  getLouvainClusterUpdateListener(){
+    return this.louvainClusterUpdated.asObservable();
   }
 
   requestCreateArchitecture(){
@@ -160,6 +166,27 @@ export class ModuleIdentService{
         transformedSplittingResult.push(splittingResult);
       }
       this.splittingResultUpdated.next({splittingResult : transformedSplittingResult });
+    });
+  }
+
+  requestLouvainCluster(){
+    this.http.get(
+      this.BACKEND_URL_LOUVAIN_CLUSTERS_GET).pipe(map(response => ({
+      functionalitySplittingProfileArray: response
+    }))).subscribe(objectArr => {
+      let transformedSplittingResult : SplittingResult[] = [];
+      for(let i in objectArr.functionalitySplittingProfileArray){
+        let splittingResult : SplittingResult = {
+          base: "", moduleCluster: [], splittingStrategy: ""
+        }
+        splittingResult.base = objectArr.functionalitySplittingProfileArray[i].base
+        splittingResult.moduleCluster= objectArr.functionalitySplittingProfileArray[i].moduleCluster
+        splittingResult.splittingStrategy = objectArr.functionalitySplittingProfileArray[i].splittingStrategy
+        splittingResult.usage = objectArr.functionalitySplittingProfileArray[i].usage
+        splittingResult.usedModules = objectArr.functionalitySplittingProfileArray[i].usedModules
+        transformedSplittingResult.push(splittingResult);
+      }
+      this.louvainClusterUpdated.next({splittingResult : transformedSplittingResult });
     });
   }
 
