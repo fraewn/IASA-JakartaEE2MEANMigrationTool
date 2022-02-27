@@ -5,11 +5,9 @@ import {HTTP_INTERCEPTORS, HttpClientModule} from "@angular/common/http";
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import {HeaderComponent} from "./header/header.component";
-import {ErrorInterceptor} from "./error-interceptor";
 import {ErrorComponent} from "./error/error.component";
 import {AngularMaterialModule} from "./angular-material.module";
 import {FormsModule} from "@angular/forms";
-import {AnalysisModule} from "./analysis/analysis.module";
 import {GlobalAnalysisModule} from "./globalAnalysis/global-analysis.module";
 import {LocalAnalysisModule} from "./localAnalysis/local-analysis.module";
 import {DashboardModule} from "./dashboard/dashboard.module";
@@ -36,7 +34,6 @@ import {MatToolbarModule} from "@angular/material/toolbar";
     HttpClientModule,
     AngularMaterialModule,
     FormsModule,
-    AnalysisModule,
     GlobalAnalysisModule,
     LocalAnalysisModule,
     DashboardModule,
