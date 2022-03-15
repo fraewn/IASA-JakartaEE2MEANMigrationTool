@@ -5,14 +5,10 @@
           How does it work?
         </mat-panel-title>
       </mat-expansion-panel-header>
-      <p>The semantic analysis is a powerful, but voluntary step in the migration process from JavaEE to MEAN. It can only be applied within
-        The semantic analysis is a powerful, but voluntary step in the migration process from JavaEE to MEAN. It can only be applied within
-        The semantic analysis is a powerful, but voluntary step in the migration process from JavaEE to MEAN. It can only be applied within
-        The semantic analysis is a powerful, but voluntary step in the migration process from JavaEE to MEAN. It can only be applied within
-        The semantic analysis is a powerful, but voluntary step in the migration process from JavaEE to MEAN. It can only be applied within
-        *Run the semantic <br> algorithm again <br> with the additional <br> keywords to double <br> check
-        Enter own keywords <br> separated by comma  and whitespace
-        Set the search <br> extent for semantic <br> analysis in  layer neighbourhood</p>
+      The table lists Jakarta EE components derived from standard functionalities like database communication and functionalities from the specification api.
+      You can take a look at the components and associate keywords with them. Classes with class names containing a keyword that was associated with a component are labeled
+      automatically with this component type.
+
     </mat-expansion-panel>
 
     <mat-table #table [dataSource]="dataSource" matSort (matSortChange)="announceSortChange($event)"
@@ -20,7 +16,7 @@
 
 
       <ng-container matColumnDef="javaEEComponent" >
-        <th mat-header-cell *matHeaderCellDef mat-sort-header sortActionDescription="Sort by component">JavaEE Component</th>
+        <th mat-header-cell *matHeaderCellDef mat-sort-header sortActionDescription="Sort by component">JakartaEE Component</th>
         <td mat-cell *matCellDef="let element"> {{element.javaEEComponent}}  </td>
       </ng-container>
 

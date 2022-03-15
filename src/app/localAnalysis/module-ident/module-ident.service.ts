@@ -31,7 +31,8 @@ export class ModuleIdentService{
   }
 
   requestCreateArchitecture(){
-    this.http.get(this.BACKEND_URL_CREATE_ARCH);
+    this.http.get(this.BACKEND_URL_CREATE_ARCH).pipe(map(response => ({
+    }))).subscribe();
   }
 
   requestAddCallToModule(calledModule, base){

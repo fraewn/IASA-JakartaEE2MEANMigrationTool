@@ -6,14 +6,12 @@
           How does it work?
         </mat-panel-title>
       </mat-expansion-panel-header>
-      <p>The semantic analysis is a powerful, but voluntary step in the migration process from JavaEE to MEAN. It can only be applied within
-        The semantic analysis is a powerful, but voluntary step in the migration process from JavaEE to MEAN. It can only be applied within
-        The semantic analysis is a powerful, but voluntary step in the migration process from JavaEE to MEAN. It can only be applied within
-        The semantic analysis is a powerful, but voluntary step in the migration process from JavaEE to MEAN. It can only be applied within
-        The semantic analysis is a powerful, but voluntary step in the migration process from JavaEE to MEAN. It can only be applied within
-        *Run the semantic <br> algorithm again <br> with the additional <br> keywords to double <br> check
-        Enter own keywords <br> separated by comma  and whitespace
-        Set the search <br> extent for semantic <br> analysis in  layer neighbourhood</p>
+      <p>The semantic analysis is a powerful but voluntary step in the migration process from JavaEE to MEAN.
+        It can only be applied within projects where the naming of classes represents their purpose. For instance, UserDAO.java or RegisterView.java are very clear and
+        descriptive names. The semantic analysis takes the names and splits them at each upper letter. For each layer in the software it then finds the most common words.
+        You can find the calculated words per layer in the table under 'keywords'.
+        To improve the results, you can add own keywords separated by comma and a whitespace. You can then choose to let the algorithm check if the entered word is actually common by clicking on 'save only approved', or just save them anyways with 'save all'.
+        You can broaden the search extent by setting a higher value, this way, more distant neighbours of a layer are searched.
     </mat-expansion-panel>
 
     <mat-table #table [dataSource]="dataSource" matSort (matSortChange)="announceSortChange($event)"
